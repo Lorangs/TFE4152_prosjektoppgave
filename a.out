@@ -1,0 +1,92 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000001fa5bfabcf0 .scope module, "adder_tb" "adder_tb" 2 9;
+ .timescale 0 0;
+v000001fa5bff5ed0_0 .var "a", 3 0;
+v000001fa5bff5f70_0 .var "b", 3 0;
+v000001fa5bff3560_0 .net "sum", 4 0, L_000001fa5bff3740;  1 drivers
+S_000001fa5bff5c00 .scope module, "uut" "adder" 2 18, 2 1 0, S_000001fa5bfabcf0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 4 "a";
+    .port_info 1 /INPUT 4 "b";
+    .port_info 2 /OUTPUT 5 "sum";
+v000001fa5bfabe80_0 .net *"_ivl_0", 4 0, L_000001fa5bff3600;  1 drivers
+L_000001fa5c043858 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v000001fa5bfa69a0_0 .net *"_ivl_3", 0 0, L_000001fa5c043858;  1 drivers
+v000001fa5bfa6d70_0 .net *"_ivl_4", 4 0, L_000001fa5bff36a0;  1 drivers
+L_000001fa5c0438a0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v000001fa5bfa7100_0 .net *"_ivl_7", 0 0, L_000001fa5c0438a0;  1 drivers
+v000001fa5bfa8d70_0 .net "a", 3 0, v000001fa5bff5ed0_0;  1 drivers
+v000001fa5bff5d90_0 .net "b", 3 0, v000001fa5bff5f70_0;  1 drivers
+v000001fa5bff5e30_0 .net "sum", 4 0, L_000001fa5bff3740;  alias, 1 drivers
+L_000001fa5bff3600 .concat [ 4 1 0 0], v000001fa5bff5ed0_0, L_000001fa5c043858;
+L_000001fa5bff36a0 .concat [ 4 1 0 0], v000001fa5bff5f70_0, L_000001fa5c0438a0;
+L_000001fa5bff3740 .arith/sum 5, L_000001fa5bff3600, L_000001fa5bff36a0;
+    .scope S_000001fa5bfabcf0;
+T_0 ;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 10, 0;
+    %pushi/vec4 2, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 3, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 10, 0;
+    %pushi/vec4 5, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 6, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 10, 0;
+    %pushi/vec4 15, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 10, 0;
+    %pushi/vec4 9, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 6, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 10, 0;
+    %vpi_call 2 38 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+    .scope S_000001fa5bfabcf0;
+T_1 ;
+    %vpi_call 2 42 "$dumpfile", "test.vcd" {0 0 0};
+    %vpi_call 2 43 "$dumpvars" {0 0 0};
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 1, 0;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 1, 0;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 1, 0;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v000001fa5bff5ed0_0, 0, 4;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v000001fa5bff5f70_0, 0, 4;
+    %delay 1, 0;
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "./verilog_pre_project_testing/test.v";
