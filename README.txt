@@ -1,9 +1,6 @@
-teTFE4152 Design av Integrete kretser, prosjektoppgave H24
+TFE4152 Design av Integrete kretser, prosjektoppgave H24
 
-
-Lorang tester funksjonalitet
-
-
-
+Dato:           14. oktober 2024
+Skrevet av:     Lorang Strnad & Sebastiand W. Kalland.
 
 

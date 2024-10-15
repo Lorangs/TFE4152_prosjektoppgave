@@ -1,0 +1,81 @@
+#! /usr/local/bin/vvp
+:ivl_version "11.0 (stable)" "(v11_0-132-gb2f2414f4)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/local/lib/ivl/system.vpi";
+:vpi_module "/usr/local/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/local/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/local/lib/ivl/v2005_math.vpi";
+:vpi_module "/usr/local/lib/ivl/va_math.vpi";
+S_0x5c7d60229f70 .scope module, "tb_dff" "tb_dff" 2 20;
+ .timescale 0 0;
+v0x5c7d60251420_0 .net "Q", 0 0, L_0x5c7d602519f0;  1 drivers
+v0x5c7d602514e0_0 .net "Qn", 0 0, L_0x5c7d60251b80;  1 drivers
+v0x5c7d602515b0_0 .var "data", 0 0;
+v0x5c7d602516b0_0 .var "we", 0 0;
+S_0x5c7d6023db80 .scope module, "dff_inst1" "dff" 2 26, 2 2 0, S_0x5c7d60229f70;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "data";
+    .port_info 1 /INPUT 1 "we";
+    .port_info 2 /INPUT 1 "re";
+    .port_info 3 /OUTPUT 1 "Q";
+    .port_info 4 /OUTPUT 1 "Qn";
+L_0x5c7d60251780 .functor NAND 1, v0x5c7d602516b0_0, v0x5c7d602515b0_0, C4<1>, C4<1>;
+L_0x5c7d602518c0 .functor NAND 1, v0x5c7d602516b0_0, L_0x5c7d60251930, C4<1>, C4<1>;
+L_0x5c7d60251930 .functor NOT 1, v0x5c7d602515b0_0, C4<0>, C4<0>, C4<0>;
+L_0x5c7d602519f0 .functor NAND 1, L_0x5c7d60251780, L_0x5c7d60251b80, C4<1>, C4<1>;
+L_0x5c7d60251b80 .functor NAND 1, L_0x5c7d602518c0, L_0x5c7d602519f0, C4<1>, C4<1>;
+v0x5c7d6023dd60_0 .net "Q", 0 0, L_0x5c7d602519f0;  alias, 1 drivers
+v0x5c7d60250dc0_0 .net "Q1", 0 0, L_0x5c7d60251780;  1 drivers
+v0x5c7d60250e80_0 .net "Qn", 0 0, L_0x5c7d60251b80;  alias, 1 drivers
+v0x5c7d60250f50_0 .net "Qn1", 0 0, L_0x5c7d602518c0;  1 drivers
+v0x5c7d60251010_0 .net *"_ivl_2", 0 0, L_0x5c7d60251930;  1 drivers
+v0x5c7d60251140_0 .net "data", 0 0, v0x5c7d602515b0_0;  1 drivers
+o0x7ff0f5473138 .functor BUFZ 1, C4<z>; HiZ drive
+v0x5c7d60251200_0 .net "re", 0 0, o0x7ff0f5473138;  0 drivers
+v0x5c7d602512c0_0 .net "we", 0 0, v0x5c7d602516b0_0;  1 drivers
+    .scope S_0x5c7d60229f70;
+T_0 ;
+    %vpi_call 2 34 "$dumpfile", "waveform.vcd" {0 0 0};
+    %vpi_call 2 35 "$dumpvars", 32'sb00000000000000000000000000000001, S_0x5c7d60229f70 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x5c7d602515b0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x5c7d602516b0_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x5c7d602515b0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x5c7d602515b0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x5c7d602516b0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x5c7d602516b0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x5c7d602515b0_0, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x5c7d602516b0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x5c7d602516b0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x5c7d602515b0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x5c7d602516b0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x5c7d602516b0_0, 0;
+    %delay 10, 0;
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "dff.v";

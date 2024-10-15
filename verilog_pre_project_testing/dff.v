@@ -3,6 +3,7 @@ module dff
     (
         input data,
         input we,
+        input re,
         output Q,
         output Qn
     );

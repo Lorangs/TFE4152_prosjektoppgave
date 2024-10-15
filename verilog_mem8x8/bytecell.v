@@ -1,47 +1,34 @@
+/* 
+Se vedlegg for kretskjema.
+En bytecelle bestående av 8 stk bitceller med enkel logikk for kontroll av 
+utgangsignalene WriteEnable og ReadEnable fra inngangsignalene sel(ect) og op(eration). .
+Tar inn 8 bit inp(ut) signal og fordeler informasjonen til de tilhørende 8 bitcellene.
+gir tilsvarende outp(ut) fra de 8 innbyrdes bitcellene.
+Modul Bitcelle er konstruert i filen bitcelle.v
+ */
+
+`include "bitcell.v"                // include bitcell module to the script
+
 module bytecell
     (
-        input [7:0] inp,
-        input rw,
-        input sel,
-        output [7:0] outp
+        input   [7:0]   inp,        // input
+        input           op,         // operation, write = 1, read = 0
+        input           sel,        // select. 1 if read/write operation is valid for one bytecell, else 0.
+        output  [7:0]   outp        // output
     );
+    wire    re;                     // read enable
+    wire    we;                     // write enable
+    
 
-    bitcell bitcells [7:0] 
+    and(we, sel, op);               // we = sel & op
+    and(re, sel, ~op);              // re = sel & ~op
+
+
+    bitcell bitcells [7:0]          // 8xbitcell
     (
         .inp(inp),
-        .rw(rw),
-        .sel(sel),
+        .re(re),
+        .we(we),
         .outp(outp)
     );
-endmodule
-
-module tb_bytecell;
-    reg [7:0] inp;
-    reg rw;
-    reg sel;
-    wire [7:0] outp;
-
-    bytecell uut 
-    (
-        .inp(inp),
-        .rw(rw),
-        .sel(sel),
-        .outp(outp)
-    );
-
-    initial begin
-        $dumpfile("waveform.vcd");
-        $dumpvars(1, tb_bytecell);
-
-        inp = 8'b00000000;
-        rw = 0;
-        sel = 0;
-
-        #10 sel <= 1;
-        #10 rw <= 0; inp <= 8'b10101010;
-        #10 rw <= 1;
-        #10 inp <= 8'b11001100;
-        #10 rw <= 0; inp <= 8'b11110000;
-        #10;
-    end
 endmodule
