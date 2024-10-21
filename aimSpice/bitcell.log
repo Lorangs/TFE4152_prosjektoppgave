@@ -7,63 +7,216 @@
                  *                                           *
                  *********************************************
 
-	Date: Mon Oct 21 09:22:44 2024
+	Date: Mon Oct 21 10:17:31 2024
 	Circuit File: C:\Users\Sebas\Documents\Studier\Semester9\IC\prosjekt\TFE4152_prosjektoppgave\aimSpice\bitcell.cir
-	Analysis: Transient
+	Analysis: DC Transfer Curves
 
 **************************  Circuit Description  **************************
 
-     1:  * AimSPICE implementation of the bitcell
-     2:  * Using NMOS and PMOS models from gpdk90nm_tt.cir
+     1:  *include gpdk90nm_tt.cir
+     2:  .param  s1v_rs_ne=0.000000e+000 s1v_vsat_ne=1.120000e+005 s1v_pldd_surf=6.000000e+019   s1v_uc1_ne=3.700000e-010 s1v_u0_ne=2.000000e-002 s1v_nch_ne=5.200000e+017   s1v_rsc_ne=4.082483e-014 s1v_cgbo_ne=1.482000e-011 s1v_prt_ne=1.000000e+001   s1v_rdc_ne=4.082483e-014 s1v_vth0_ne=1.692662e-001 s1v_k2_ne=0.000000e+000   s1v_cgdo_ne=2.667600e-010 s1v_ckappa_ne=4.605336e+000 s1v_wint_ne=6.000000e-009   s1v_k1_ne=2.825346e-001 s1v_cgsl_ne=1.111500e-010 s1v_nldd_surf=3.000000e+019   s1v_js_ne=3.366667e-006 s1v_hdif_ne=1.400000e-007 s1v_rdsw_ne=3.900000e-006   s1v_jsw_ne=3.366667e-010 s1v_tox_ne=2.330000e-009 s1v_cj_ne=7.983537e-004   s1v_cjsw_ne=4.790122e-011 s1v_ldif_ne=1.000000e-008 s1v_xj_ne=2.500000e-008   s1v_rd_ne=0.000000e+000 s1v_pb_ne=9.918524e-001 s1v_cf_ne=4.594612e-011   s1v_lint_ne=1.500000e-008 s1v_cjswg_ne=1.995884e-011 s1v_rsh_ne=1.000000e+001   s1v_u0_pe=1.200000e-002 s1v_nch_pe=4.000000e+017 s1v_rsc_pe=2.886751e-014   s1v_cgbo_pe=1.392363e-011 s1v_rdc_pe=2.886751e-014 s1v_vth0_pe={-1.359511e-001}   s1v_k2_pe=0.000000e+000 s1v_cgdo_pe=2.506253e-010 s1v_ckappa_pe=1.043477e+001   s1v_wint_pe=5.000000e-009 s1v_k1_pe=2.637520e-001 s1v_cgsl_pe=1.044272e-010   s1v_js_pe=3.350000e-006 s1v_hdif_pe=1.400000e-007 s1v_rdsw_pe=7.800000e-006   s1v_jsw_pe=3.350000e-010 s1v_tox_pe=2.480000e-009 s1v_cj_pe=7.912252e-004   s1v_cjsw_pe=4.747351e-011 s1v_ldif_pe=1.000000e-008 s1v_xj_pe=2.500000e-008   s1v_rd_pe=0.000000e+000 s1v_pb_pe=1.009805e+000 s1v_cf_pe=4.527118e-011   s1v_lint_pe=1.500000e-008 s1v_cjswg_pe=1.978063e-011 s1v_rsh_pe=2.000000e+001   s1v_rs_pe=0.000000e+000 s1v_vsat_pe=1.000000e+005   gleak_scale=1.0   s1v_nat_vth0_ne=0.192662e-001 s1v_nat_k1_ne=2.825346e-002   pvt_mc=0 pu0_mc=0 pltw_mc=0
      3:  
-     4:  
-     5:  * Define power supply
-     6:  VDD Vdd 0 1.0V
-     7:  
-     8:  * Bitcell circuit
-     9:  * Nodes: BL (Bit Line), BLB (Bit Line Bar), WL (Word Line), Q (Data), QB (Data Bar)
-    10:  
-    11:  * Transistors
-    12:  * M1 and M2 are the access transistors
-    13:  * M3, M4, M5, and M6 form the cross-coupled inverters
-    14:  * M7 and M8 are the pull-up transistors
-    15:  * M9 and M10 are the pull-down transistors
-    16:  
-    17:  * Access transistor M1
-    18:  M1 Q WL BL Vdd NMOS L=90n W=180n
-    19:  * Access transistor M2
-    20:  M2 QB WL BLB Vdd NMOS L=90n W=180n
-    21:  
-    22:  * Cross-coupled inverter 1
-    23:  * PMOS transistor M3
-    24:  M3 Vdd Q QB Vdd PMOS L=90n W=360n
-    25:  * NMOS transistor M4
-    26:  M4 QB Q 0 Vdd NMOS L=90n W=180n
-    27:  
-    28:  * Cross-coupled inverter 2
-    29:  * PMOS transistor M5
-    30:  M5 Vdd QB Q Vdd PMOS L=90n W=360n
-    31:  * NMOS transistor M6
-    32:  M6 Q QB 0 Vdd NMOS L=90n W=180n
-    33:  
-    34:  * Pull-up transistor M7
-    35:  M7 Vdd Q Vdd Vdd PMOS L=90n W=180n
-    36:  * Pull-up transistor M8
-    37:  M8 Vdd QB Vdd Vdd PMOS L=90n W=180n
-    38:  
-    39:  * Pull-down transistor M9
-    40:  M9 Q 0 0 Vdd NMOS L=90n W=180n
-    41:  * Pull-down transistor M10
-    42:  M10 QB 0 0 Vdd NMOS L=90n W=180n
-    43:  
-    44:  * Initial conditions
-    45:  .ic V(Q)=0 V(QB)=1
-    46:  
-    47:  * Simulation control
-    48:  .tran 1n 100n
-    49:  
-    50:  * End of file
-    51:  .end
+     4:  .subckt nmos1v d g s b param: l=0.1u w=10u simm=1 nrd={s1v_hdif_ne/w} nrs={s1v_hdif_ne/w} as=1p ad=1p ps=1u pd=1u 
+     5:  + garea={w*l} maforward={2.5e3*garea*gleak_scale} mareverse={.03*maforward} 
+     6:  + varvt=0.004
+     7:  + geo_fac={0.7071/sqrt(l*w*simm*1e12)}
+     8:  + mm_delvt={varvt*geo_fac*pvt_mc}
+     9:  + mm_mu0={1-(0.005*geo_fac*pu0_mc)} 
+    10:  + mm_dl={2e-03*geo_fac*l*pltw_mc} 
+    11:  + mm_dw={-24e-03*geo_fac*w*pltw_mc}
+    12:  + mm_dtox={2e-03*geo_fac*s1v_tox_ne*pltw_mc}
+    13:  m1 d g s b gpdk090_nmos1v_x w=w l=l as=as ad=ad ps=ps pd=pd nrd=nrd nrs=nrs 
+    14:  .model gpdk090_nmos1v_x nmos
+    15:  + level=18
+    16:  + lmin=0.0 lmax=1.0 wmin=0.0 
+    17:  + wmax=1.0 tnom=25.0 version=3.2 
+    18:  + tox={s1v_tox_ne+mm_dtox} toxm={s1v_tox_ne+mm_dtox} xj=s1v_xj_ne 
+    19:  + nch=s1v_nch_ne lln=1.0000000 lwn=1.0000000 
+    20:  + wln=1.0000000 wwn=-1.0000000 lint=s1v_lint_ne 
+    21:  + ll=0.00 lw=0.00 lwl=0.00 
+    22:  + wint=s1v_wint_ne wl=0.00 ww=0.00 
+    23:  + wwl=0.00 mobmod=1 binunit=2 
+    24:  + dwg=0.00 
+    25:  + dwb=0.00  
+    26:  + rsh=s1v_rsh_ne 
+    27:  + vth0={s1v_vth0_ne+mm_delvt} k1=s1v_k1_ne k2=s1v_k2_ne 
+    28:  + k3=-2.3000000 dvt0=3.86366 dvt1=1.2 
+    29:  + dvt2=5.0299990e-02 dvt0w=0.00 dvt1w=0.00 
+    30:  + dvt2w=0.00 nlx=1.2517999e-07 w0={-7.1353000e-09} 
+    31:  + k3b=0.5576769 ngate=4.0e20 vsat=s1v_vsat_ne 
+    32:  + ua={-6.1879500e-10} ub=1.8806652e-18 uc=1.3823546e-10 
+    33:  + rdsw=s1v_rdsw_ne prwb=0.00 prwg=0.00 
+    34:  + wr=1.0000000 u0={s1v_u0_ne*mm_mu0} a0=2.3750000 
+    35:  + keta={-3.1429991e-02} a1=0.00 a2=0.9900000 
+    36:  + ags=0.8900000 b0=0.00 b1=0.00 
+    37:  + voff={-9.6776000e-02} nfactor=1.0200000 cit={-8.6656060e-04} 
+    38:  + cdsc=4.4460000e-02 cdscb=1.0565110e-02 cdscd=0.00 
+    39:  + eta0=7.6580000e-02 etab={-3.4998000e-02} dsub=0.2200000 
+    40:  + pclm=1.5488822 pdiblc1=0.00 pdiblc2=2.4648249e-02 
+    41:  + pdiblcb=0.00 drout=0.00 pscbe1=9.2648200e08 
+    42:  + pscbe2=1.0000000e-20 pvag=0.00 delta=7.5000000e-03 
+    43:  + alpha0=0.00 alpha1=0.0177 beta0=6.3203 
+    44:  + kt1=-0.13 kt2=-0.042 at=9.0000000e04 
+    45:  + ute=-1.7303560 ua1=1.8035814e-09 ub1={-2.1874742e-18} 
+    46:  + uc1=s1v_uc1_ne kt1l=0.00 prt=s1v_prt_ne 
+    47:  + cj=s1v_cj_ne mj=0.222 pb=s1v_pb_ne 
+    48:  + cjsw=s1v_cjsw_ne mjsw=0.01 pbsw=0.1 
+    49:  + cjswg=s1v_cjswg_ne mjswg=0.5028 pbswg=0.6859 
+    50:  + tpb=1.30e-03 tpbsw=0.0000 tpbswg=2.81e-03 
+    51:  + tcj=7.61e-04 tcjsw=1.04e-03 tcjswg=1.63e-03 
+    52:  + js=s1v_js_ne jsw=s1v_jsw_ne 
+    53:  + xti=3 cgdo=s1v_cgdo_ne cgso=s1v_cgdo_ne 
+    54:  + cgbo=s1v_cgbo_ne capmod=2  
+    55:  + elm=5 xpart=1 cgsl=s1v_cgsl_ne 
+    56:  + cgdl=s1v_cgsl_ne ckappa=s1v_ckappa_ne cf=s1v_cf_ne 
+    57:  + clc=1.0000000e-07 cle=0.6000000 dlc=1.89e-08 
+    58:  + dwc=1.62e-08 llc=1.53e-16 lwc={-9.0e-16} 
+    59:  + wlc=0 wwc=-0.0989 lwlc=0 
+    60:  + wwlc=0 acde=0.5 moin=10.5 
+    61:  + noff=1.85 voffcv=-0.048 lvoffcv=2.0e-09 
+    62:  + ijth=1 
+    63:  + noia=1.0e+19 noib=2e+4 noic=1.0e-13 
+    64:  + ef=1.0 noimod=2 em=4e+7 
+    65:  .ends gpdk090_nmos1v
+    66:  
+    67:  .subckt pmos1v d g s b param: l=0.1u w=10u simm=1 nrd={s1v_hdif_pe/w} nrs={s1v_hdif_pe/w} as=1p ad=1p ps=1u pd=1u 
+    68:  + garea={w*l} maforward={1.6e3*garea*gleak_scale} mareverse={.03*maforward} 
+    69:  + varvt=0.003
+    70:  + geo_fac={0.7071/sqrt(l*w*simm*1e12)} 
+    71:  + mm_delvt={varvt*geo_fac*pvt_mc}
+    72:  + mm_mu0={1-(0.005*geo_fac*pu0_mc)}
+    73:  + mm_dl={2e-03*geo_fac*l*pltw_mc}
+    74:  + mm_dw={-24e-03*geo_fac*w*pltw_mc}
+    75:  + mm_dtox={2e-03*geo_fac*s1v_tox_pe*pltw_mc}
+    76:  m1 d g s b gpdk090_pmos1v_x w=w l=l as=as ad=ad ps=ps pd=pd nrd=nrd nrs=nrs 
+    77:  .model gpdk090_pmos1v_x pmos 
+    78:  + level=18
+    79:  + lmin=0.0 lmax=1.0 wmin=0.0 
+    80:  + wmax=1.0 tnom=25.0 version=3.2 
+    81:  + tox={s1v_tox_pe+mm_dtox} toxm={s1v_tox_pe+mm_dtox} xj=s1v_xj_pe 
+    82:  + nch=1.7200001e17 lln=1.0000000 lwn=1.0000000 
+    83:  + wln=1.0000000 wwn=-1.0000000 lint=s1v_lint_pe 
+    84:  + ll=0.00 lw=0.00 lwl=0.00 
+    85:  + wint=s1v_wint_pe wl=0.00 ww=0.00 
+    86:  + wwl=0.00 mobmod=1 binunit=2 
+    87:  + dwg=0.00 
+    88:  + dwb=0.00
+    89:  + rsh=s1v_rsh_pe
+    90:  + vth0={s1v_vth0_pe+mm_delvt} pvth0=0 k1=s1v_k1_pe 
+    91:  + k2=s1v_k2_pe k3=-0.5000000 dvt0=8.0 
+    92:  + dvt1=2.07 dvt2=0.1000000 dvt0w=0.00 
+    93:  + dvt1w=0.00 dvt2w=0.00 nlx=2.2400000e-07 
+    94:  + w0=0.00 k3b=7.0000000e-02 ngate=9.3200000e19 
+    95:  + vsat=s1v_vsat_pe ua={-2.7643932e-10} ub=2.2546092e-18 
+    96:  + uc=1.6265005e-10 rdsw=s1v_rdsw_pe prwb=0.00 
+    97:  + prwg=0.00 wr=1.0000000 u0={s1v_u0_pe*mm_mu0} 
+    98:  + a0=2.9669099 keta={-8.2015020e-02} a1=0.00 
+    99:  + a2=1.0000000 ags=1.2279299 b0=0.00 
+   100:  + b1=0.00 voff=-0.1170768 nfactor=1.0000000 
+   101:  + cit={-2.5695576e-03} cdsc=0.00 cdscb=0.00 
+   102:  + cdscd=0.00 eta0=5.0000000e-02 leta0=0 
+   103:  + etab=0 dsub=0.3000000 pclm=1.0000000 
+   104:  + pdiblc1=6.0000000e-03 pdiblc2=5.0000000e-03 pdiblcb=-0.5267781 
+   105:  + drout=0.00 pscbe1=5.1300000e08 pscbe2=4.8900000e-07 
+   106:  + pvag=0.00 delta=9.9999990e-03 alpha0=0.00 
+   107:  + alpha1=0.001 beta0=7.6 kt1=-0.11 
+   108:  + kt2=4.4329650e-02 at=1.0000000e04 ute=-1.4468272 
+   109:  + ua1=1.2158887e-09 ub1={-4.0489830e-18} uc1={-5.6549980e-10} 
+   110:  + kt1l=0.00 prt=0 cj=s1v_cj_pe 
+   111:  + mj=0.331 pb=s1v_pb_pe cjsw=s1v_cjsw_pe 
+   112:  + mjsw=0.01 pbsw=0.10 cjswg=s1v_cjswg_pe 
+   113:  + mjswg=0.7833 pbswg=0.8137 tpb=0.00173 
+   114:  + tpbsw=0.0 tpbswg=0.0044 tcj=0.000949 
+   115:  + tcjsw=0.0000758 tcjswg=0.00388 js=s1v_js_pe 
+   116:  + jsw=s1v_jsw_pe xti=3 
+   117:  + cgdo=s1v_cgdo_pe cgso=s1v_cgdo_pe cgbo=s1v_cgbo_pe 
+   118:  + capmod=2 elm=5 
+   119:  + xpart=1 cgsl=s1v_cgsl_pe cgdl=s1v_cgsl_pe 
+   120:  + ckappa=s1v_ckappa_pe cf=s1v_cf_pe clc=1.0000000e-07 
+   121:  + cle=0.6000000 dlc=2.252e-08 dwc=1.2404e-08 
+   122:  + llc={-1.2e-16} lwc={-6.2e-16} wlc=0 
+   123:  + wwc=-0.15 lwlc=0 wwlc=0 
+   124:  + acde=0.5 moin=15.6 noff=2.16 
+   125:  + voffcv=-0.0385 lvoffcv={-3.80e-09} lnoff=7.50e-08 
+   126:  + ijth=1 
+   127:  + noia=1.0e+19 noib=2.0e+3 noic=1.0e-11 
+   128:  + ef=1.1 noimod=2 em=1.0e+8 
+   129:  .ends
+   130:  *end of: gpdk90nm_tt.cir
+   131:  
+   132:  * PARAMS * TODO: change:
+   133:  .param ln = 350n 
+   134:  .param lp = 350n
+   135:  .param wn = 700n
+   136:  .param wp = 1500n
+   137:  
+   138:  .param VDD = 1V
+   139:  .param VSS = 0V
+   140:  
+   141:  
+   142:  
+   143:  *********************
+   144:  * TRANSMISSION GATE *
+   145:  *********************
+   146:  
+   147:  *       name                input   pmos gate   nmos gate   output  powerup powerdown
+   148:  .subckt transmission_gate   inp     pmos_gate   nmos_gate   outp    VDD     VSS
+   149:  
+   150:  *           Drain   Gate        Source  Bulk    Type    Length  Width
+   151:  internal_p1 outp    pmos_gate   inp     VDD     pmos1v  l = lp  w = wp
+   152:  internal_n1 inp     nmos_gate   outp    VSS     nmos1v  l = ln  w = wn
+   153:  
+   154:  .ends
+   155:  
+   156:  
+   157:  
+   158:  ************
+   159:  * NOT GATE *
+   160:  ************
+   161:  
+   162:  *       name     input  output  powerup powerdown
+   163:  .subckt not_gate inp    outp    VDD     VSS
+   164:  
+   165:  *           Drain   Gate    Source  Bulk    Type   Length   Width
+   166:  internal_p2 outp    inp     VDD     VDD     pmos1v l = lp   w = wp
+   167:  internal_n2 outp    inp     VSS     VSS     nmos1v l = ln   w = wn
+   168:  
+   169:  .ends
+   170:  
+   171:  
+   172:  
+   173:  ***********
+   174:  * BITCELL *
+   175:  ***********
+   176:  
+   177:  *       name    input   output  writeEN     writeENneg  readEN      readENneg   powerup powerdown
+   178:  .subckt bitcell inp     outp    we          wen         re          ren         VDD     VSS
+   179:  
+   180:  * kanskje TODO: definer Q0, Q1, Q2
+   181:  
+   182:  *   input   pmos gate   nmos gate   output  powerup powerdown   type(transmission_gate)
+   183:  TG1 inp     wen         we          Q0      VDD     VSS         transmission_gate
+   184:  TG2 Q2      we          wen         Q0      VDD     VSS         transmission_gate
+   185:  TG3 Q2      ren         re          outp    VDD     VSS         transmission_gate
+   186:  
+   187:  *       input   output  powerup powerdown   type(not_gate)
+   188:  NOT1    Q0      Q1      VDD     VSS         not_gate
+   189:  NOT2    Q1      Q2      VDD     VSS         not_gate
+   190:  
+   191:  .ends
+   192:  
+   193:  
+   194:  
+   195:  *********
+   196:  * SIMUL *
+   197:  *********
+   198:  
+   199:  *   input   output  writeEN     writeENneg  readEN      readENneg   powerup powerdown   type(bitcell)
+   200:  BC1 data    outp    we          wen         re          ren         VDD     VSS         bitcell
+   201:  
+   202:  .dc data 0 1 0.01
+   203:  
+   204:  
 
 ***************************  Model Parameters  ****************************
 
@@ -74,9 +227,10 @@
 
 **************************  Analysis Parameters  **************************
 
-	Stepsize ............ : 1n
-	Final time .......... : 100n
-	Use Initial Conditions: Off
+	Source name #1 .. : data
+	Start value #1 .. : 0
+	End value #1 .... : 1
+	Increment value #1: 0.01
 
 
 
@@ -86,57 +240,10 @@
 
 ***************************  Kernel Messages  *****************************
 
-Circuit: * AimSPICE implementation of the bitcell
+Circuit: .include gpdk90nm_tt.cir
 
-Error: could not open include file "./gpdk90nm_tt.cir"
-Error on line 18 : m1 q wl bl vdd nmos l=90n w=180n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 20 : m2 qb wl blb vdd nmos l=90n w=180n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 24 : m3 vdd q qb vdd pmos l=90n w=360n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 26 : m4 qb q 0 vdd nmos l=90n w=180n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 30 : m5 vdd qb q vdd pmos l=90n w=360n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 32 : m6 q qb 0 vdd nmos l=90n w=180n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 35 : m7 vdd q vdd vdd pmos l=90n w=180n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 37 : m8 vdd qb vdd vdd pmos l=90n w=180n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 40 : m9 q 0 0 vdd nmos l=90n w=180n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
-
-Error on line 42 : m10 qb 0 0 vdd nmos l=90n w=180n
- unable to find definition of model w - default assumed 
-
- error:  no unlabeled parameter permitted on mosfet
+Warning: premature EOF
+Error on line 82 : bc1 data    outp    we          wen         re          ren         vdd     vss         bitcell
+ unknown parameter (we) 
 
 
