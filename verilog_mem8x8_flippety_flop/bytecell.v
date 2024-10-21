@@ -9,7 +9,7 @@ Modul Bitcelle er konstruert i filen bitcelle.v
 
 `include "bitcell.v"                // include bitcell module to the script
 
-module bytecell
+cd module bytecell
     (
         input   [7:0]   inp,        // input
         input           op,         // operation, write = 1, read = 0

@@ -4,3 +4,4 @@ Dato:           14. oktober 2024
 Skrevet av:     Lorang Strnad & Sebastiand W. Kalland.
 
 
+    
