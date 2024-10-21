@@ -3,8 +3,6 @@
 .include gpdk90nm_tt.cir
 
 
-
-
 * PARAMS * TODO: change:
 .param ln = 350n 
 .param lp = 350n
@@ -17,8 +15,8 @@
 ***************
 * name  node1   node2   Type    Voltage
 VDD     1       0       dc      1.0V
-VDATA   1       0       dc      pulse(0 1  1n   0   0   3n  8n)
-
+R1      2       0       100k
+VDATA   2       0       dc      pulse(0 1  1n   0   0   3n  8n)
 
 
 *********************
@@ -29,8 +27,8 @@ VDATA   1       0       dc      pulse(0 1  1n   0   0   3n  8n)
 .subckt transmission_gate   inp     pmos_gate   nmos_gate   outp    VDD     VSS
 
 *           Drain   Gate        Source  Bulk    Type    Length  Width
-internal_p1 outp    pmos_gate   inp     VDD     pmos1v  l = lp  w = wp
-internal_n1 inp     nmos_gate   outp    VSS     nmos1v  l = ln  w = wn
+xinternal_p1 outp    pmos_gate   inp     VDD     pmos1v  l = lp  w = wp
+xinternal_n1 inp     nmos_gate   outp    VSS     nmos1v  l = ln  w = wn
 
 .ends
 
@@ -44,8 +42,8 @@ internal_n1 inp     nmos_gate   outp    VSS     nmos1v  l = ln  w = wn
 .subckt not_gate inp    outp    VDD     VSS
 
 *           Drain   Gate    Source  Bulk    Type   Length   Width
-internal_p2 outp    inp     VDD     VDD     pmos1v l = lp   w = wp
-internal_n2 outp    inp     VSS     VSS     nmos1v l = ln   w = wn
+xinternal_p2 outp    inp     VDD     VDD     pmos1v l = lp   w = wp
+xinternal_n2 outp    inp     VSS     VSS     nmos1v l = ln   w = wn
 
 .ends
 
@@ -61,13 +59,13 @@ internal_n2 outp    inp     VSS     VSS     nmos1v l = ln   w = wn
 * kanskje TODO: definer Q0, Q1, Q2
 
 *   input   pmos gate   nmos gate   output  powerup powerdown   type(transmission_gate)
-TG1 inp     wen         we          Q0      VDD     VSS         transmission_gate
-TG2 Q2      we          wen         Q0      VDD     VSS         transmission_gate
-TG3 Q2      ren         re          outp    VDD     VSS         transmission_gate
+xTG1 inp     wen         we          Q0      VDD     VSS         transmission_gate
+xTG2 Q2      we          wen         Q0      VDD     VSS         transmission_gate
+xTG3 Q2      ren         re          outp    VDD     VSS         transmission_gate
 
 *       input   output  powerup powerdown   type(not_gate)
-NOT1    Q0      Q1      VDD     VSS         not_gate
-NOT2    Q1      Q2      VDD     VSS         not_gate
+xNOT1    Q0      Q1      VDD     VSS         not_gate
+xNOT2    Q1      Q2      VDD     VSS         not_gate
 
 .ends
 
@@ -80,6 +78,6 @@ NOT2    Q1      Q2      VDD     VSS         not_gate
 *   input   output  writeEN     writeENneg  readEN      readENneg   powerup powerdown   type(bitcell)
 
 * KOMMENTERT UT * 
-*   BC1 data    outp    we          wen         re          ren         VDD     VSS         bitcell
+xBC1 data    outp    we          wen         re          ren         VDD     VSS         bitcell
 
 .plot dc VDATA
