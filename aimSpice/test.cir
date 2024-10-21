@@ -1,3 +1,6 @@
+[aimspice]
+[description]
+625
 1 bit REGISTER simulation
 
 
@@ -6,27 +9,16 @@
 .include subcircuits.cir
 
 
-**********
-* PARAMS * 
-**********
-
-*TODO: change:
-.param ln = 350n 
-.param lp = 350n
-.param wn = 700n
-.param wp = 1500n
-
-
 
 ***************
 * INPUT NODES *
 ***************
 
-* name  node1   node2   Type    Voltage
-VDD     1       0       dc      1.0V
-R1      2       0       100k
-*VDATA   2       0       dc      pulse(0 1  1n   0   0   3n  8n)
-VIN 2 0 PULSE(1 5 1S 0.1S 0.4S 0.5S 2S)
+*name node1 node2 type  voltage
+VDD   1     0     dc    1.0V
+R1	2     0     100k
+D1 	3 	0 	dc	PULSE(0 1 1S 0.1S 0.4S 0.5S 2S)
+DN1 	4	0 	dc	PULSE(1 0 1S 0.1S 0.4S 0.5S 2S)
 
 
 
@@ -39,5 +31,21 @@ VIN 2 0 PULSE(1 5 1S 0.1S 0.4S 0.5S 2S)
 * KOMMENTERT UT * 
 *xBC1 data    outp    we          wen         re          ren         VDD     VSS         bitcell
 
-*.plot dc R1
-.plot dc i(R1)
+xTG1 1 4 3 2 1 0 transmission_gate
+
+
+[dc]
+1
+VDD
+0
+1
+0.1
+[tran]
+0.1
+5
+X
+X
+0
+[ana]
+4 0
+[end]

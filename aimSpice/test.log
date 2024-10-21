@@ -7,9 +7,9 @@
                  *                                           *
                  *********************************************
 
-	Date: Mon Oct 21 12:49:52 2024
-	Circuit File: C:\Users\Sebas\Documents\Studier\Semester9\IC\prosjekt\TFE4152_prosjektoppgave\aimSpice\bitcell.cir
-	Analysis: DC Temperature Sweep
+	Date: Mon Oct 21 12:48:24 2024
+	Circuit File: C:\Users\Sebas\Documents\Studier\Semester9\IC\prosjekt\TFE4152_prosjektoppgave\aimSpice\test.cir
+	Analysis: Transient
 
 **************************  Circuit Description  **************************
 
@@ -212,41 +212,32 @@
    197:  *end of: subcircuits.cir
    198:  
    199:  
-   200:  **********
-   201:  * PARAMS * 
-   202:  **********
-   203:  
-   204:  *TODO: change:
-   205:  .param ln = 350n 
-   206:  .param lp = 350n
-   207:  .param wn = 700n
-   208:  .param wp = 1500n
-   209:  
+   200:  
+   201:  ***************
+   202:  * INPUT NODES *
+   203:  ***************
+   204:  
+   205:  *name node1 node2
+   206:  VDD   1     0     1.0V
+   207:  R1	2     0     100k
+   208:  D1 	3 	0 	PULSE(0V 1V 1S 0.1S 0.4S 0.5S 2S)
+   209:  DN2 	4	0 	PULSE(1V 0V 1S 0.1S 0.4S 0.5S 2S)
    210:  
    211:  
-   212:  ***************
-   213:  * INPUT NODES *
-   214:  ***************
-   215:  
-   216:  * name  node1   node2   Type    Voltage
-   217:  VDD     1       0       dc      1.0V
-   218:  R1      2       0       100k
-   219:  *VDATA   2       0       dc      pulse(0 1  1n   0   0   3n  8n)
-   220:  VIN 2 0 PULSE(1 5 1S 0.1S 0.4S 0.5S 2S)
+   212:  
+   213:  *********
+   214:  * SIMUL *
+   215:  *********
+   216:  
+   217:  *   input   output  writeEN     writeENneg  readEN      readENneg   powerup powerdown   type(bitcell)
+   218:  
+   219:  * KOMMENTERT UT * 
+   220:  *xBC1 data    outp    we          wen         re          ren         VDD     VSS         bitcell
    221:  
-   222:  
+   222:  xTG1 1 4 3 2 1 0 transmission_gate
    223:  
-   224:  *********
-   225:  * SIMUL *
-   226:  *********
-   227:  
-   228:  *   input   output  writeEN     writeENneg  readEN      readENneg   powerup powerdown   type(bitcell)
-   229:  
-   230:  * KOMMENTERT UT * 
-   231:  *xBC1 data    outp    we          wen         re          ren         VDD     VSS         bitcell
-   232:  
-   233:  *.plot dc R1
-   234:  .plot dc i(R1)
+   224:  
+   225:  .tran 0.1 5
 
 ***************************  Model Parameters  ****************************
 
@@ -257,6 +248,9 @@
 
 **************************  Analysis Parameters  **************************
 
+	Stepsize ............ : 0.1
+	Final time .......... : 5
+	Use Initial Conditions: Off
 
 
 
@@ -269,8 +263,14 @@
 Circuit: 1 bit REGISTER simulation
 
 Warning: premature EOF
-Error: in line 86; parameter ln already exists
-Error: in line 87; parameter lp already exists
-Error: in line 88; parameter wn already exists
-Error: in line 89; parameter wp already exists
+Error on line 89 : d1 	3 	0 	pulse(0v 1v 1s 0.1s 0.4s 0.5s 2s)
+ unable to find definition of model pulse - default assumed 
+
+ unknown parameter (1v) 
+
+Error on line 90 : dn2 	4	0 	pulse(1v 0v 1s 0.1s 0.4s 0.5s 2s)
+ unable to find definition of model pulse - default assumed 
+
+ unknown parameter (0v) 
+
 
