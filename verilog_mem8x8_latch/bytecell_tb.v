@@ -30,6 +30,11 @@ module bytecell_tb;
         #5 inp  <= 8'b11001100;
         #5 op   <= 0;               inp <= 8'b11110000;
         #5 sel  <= 0;
+        #5 op   <= 1; sel <= 1;
+        #5 op   <= 0;               inp <= 8'b01010101;
+        #5 op   <= 1; sel <= 0;
+        #5 op   <= 0;               inp <= 8'b00000000;
+        #5 sel  <= 1;
         #5;
     end
 endmodule

@@ -7,18 +7,27 @@ module bitcell
     (
         input   inp,
         input   re,
+        input   ren,
         input   we,
+        input   wen,
         output  outp
     );
 
     wire Q0;
-    wire Qn0;
     wire Q1;
-    wire Qn1;
+    wire Q2;
 
-    nand(Q1, we, inp);
-    nand(Qn1, we, ~inp);
-    nand(Q0, Q1, Qn0);
-    nand(Qn0, Qn1, Q0);
-    nmos(outp, Q0, re);
+
+
+    pmos(Q0, inp, wen);
+    nmos(Q0, inp, we);
+
+    not(Q1, Q0);
+    not(Q2, Q1);
+
+    pmos(Q0, Q2, we);
+    nmos(Q0, Q2, wen);
+
+    pmos(outp, Q2, ren);
+    nmos(outp, Q2, re);
 endmodule

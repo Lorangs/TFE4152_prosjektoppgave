@@ -1,5 +1,5 @@
 $date
-	Tue Oct 15 15:08:16 2024
+	Mon Oct 21 08:44:31 2024
 $end
 $version
 	Icarus Verilog
@@ -7,47 +7,61 @@ $end
 $timescale
 	1s
 $end
-$scope module tb_bitcell $end
+$scope module bitcell_tb $end
 $var wire 1 ! outp $end
 $var reg 1 " inp $end
 $var reg 1 # re $end
-$var reg 1 $ we $end
+$var reg 1 $ ren $end
+$var reg 1 % we $end
+$var reg 1 & wen $end
 $upscope $end
 $enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
 #0
 $dumpvars
+1&
+0%
 0$
 0#
 0"
-z!
+x!
 $end
 #5
-x!
 1#
 #10
 z!
+1$
 0#
 #15
-z!
-1$
+0&
+1%
 1"
 #20
-0$
+1&
+0%
 #25
 0"
 #30
+0$
 1!
 1#
 #35
-1$
+0&
 z!
+1$
+1%
 0#
 #40
-0$
+1&
+0%
 #45
+0$
 0!
 1#
 #50
 z!
+1$
 0#
 #55

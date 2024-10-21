@@ -4,6 +4,8 @@ module bitcell_tb;
     reg     inp;
     reg     re;
     reg     we;
+    reg     wen;
+    reg     ren;
     wire    outp;
 
     bitcell bitcell_inst1
@@ -11,7 +13,9 @@ module bitcell_tb;
         .inp    (inp),
         .we     (we),
         .re     (re),
-        .outp   (outp)
+        .outp   (outp),
+        .wen    (wen),
+        .ren    (ren)
     );
 
     initial begin
@@ -20,18 +24,20 @@ module bitcell_tb;
 
         inp = 0;
         re  = 0;
+        ren = 0;
         we  = 0;
+        wen = 1;
 
-        #5 re  <= 1;
-        #5 re  <= 0;
-        #5 inp <= 1; we <= 1;
-        #5 we  <= 0;
+        #5 re  <= 1; ren <= 0;
+        #5 re  <= 0; ren <= 1;
+        #5 inp <= 1; we <= 1; wen <= 0;
+        #5 we  <= 0; wen <= 1;
         #5 inp <= 0;
-        #5 re  <= 1;
-        #5 re  <= 0; we <= 1;
-        #5 we  <= 0;
-        #5 re  <= 1;
-        #5 re  <= 0;
+        #5 re  <= 1; ren <= 0;
+        #5 re  <= 0; we <= 1; ren <= 1; wen <= 0;
+        #5 we  <= 0; wen <= 1;
+        #5 re  <= 1; ren <= 0;
+        #5 re  <= 0; ren <= 1;
         #5;
     end
 endmodule

@@ -1,5 +1,5 @@
 $date
-	Tue Oct 15 15:14:13 2024
+	Mon Oct 21 08:50:17 2024
 $end
 $version
 	Icarus Verilog
@@ -7,13 +7,16 @@ $end
 $timescale
 	1s
 $end
-$scope module tb_bytecell $end
+$scope module bytecell_tb $end
 $var wire 8 ! outp [7:0] $end
 $var reg 8 " inp [7:0] $end
 $var reg 1 # op $end
 $var reg 1 $ sel $end
 $upscope $end
 $enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
 #0
 $dumpvars
 0$
@@ -39,3 +42,20 @@ b11110000 "
 bz !
 0$
 #35
+1$
+1#
+#40
+b11110000 !
+b1010101 "
+0#
+#45
+bz !
+0$
+1#
+#50
+b0 "
+0#
+#55
+b11110000 !
+1$
+#60

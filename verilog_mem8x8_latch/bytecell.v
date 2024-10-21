@@ -9,26 +9,32 @@ Modul Bitcelle er konstruert i filen bitcelle.v
 
 `include "bitcell.v"                // include bitcell module to the script
 
-cd module bytecell
+module bytecell
     (
         input   [7:0]   inp,        // input
         input           op,         // operation, write = 1, read = 0
         input           sel,        // select. 1 if read/write operation is valid for one bytecell, else 0.
         output  [7:0]   outp        // output
     );
-    wire    re;                     // read enable
-    wire    we;                     // write enable
-    
+    wire re;                     // read enable
+    wire we;                     // write enable
+    wire wen;                    // write enable not
+    wire ren;                    // read enable not
+    wire opn;
 
-    and(we, sel, op);               // we = sel & op
-    and(re, sel, ~op);              // re = sel & ~op
-
+    not(opn, op);                   // opn = ~op
+    nand(wen, sel, op);               // we = sel & op
+    nand(ren, sel, opn);              // re = sel & ~op
+    not(we, wen);                   // wen = ~we
+    not(re, ren);                   // ren = ~re
 
     bitcell bitcells [7:0]          // 8xbitcell
     (
         .inp(inp),
         .re(re),
         .we(we),
-        .outp(outp)
+        .outp(outp),
+        .ren(ren),
+        .wen(wen)
     );
 endmodule
