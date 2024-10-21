@@ -1,4 +1,9 @@
+1 bit REGISTER simulation
+
 .include gpdk90nm_tt.cir
+
+
+
 
 * PARAMS * TODO: change:
 .param ln = 350n 
@@ -6,8 +11,13 @@
 .param wn = 700n
 .param wp = 1500n
 
-.param VDD = 1V
-.param VSS = 0V
+
+***************
+* INPUT NODES *
+***************
+* name  node1   node2   Type    Voltage
+VDD     1       0       dc      1.0V
+VDATA   1       0       dc      pulse(0 1  1n   0   0   3n  8n)
 
 
 
@@ -68,7 +78,8 @@ NOT2    Q1      Q2      VDD     VSS         not_gate
 *********
 
 *   input   output  writeEN     writeENneg  readEN      readENneg   powerup powerdown   type(bitcell)
-BC1 data    outp    we          wen         re          ren         VDD     VSS         bitcell
 
-.dc data 0 1 0.01
+* KOMMENTERT UT * 
+*   BC1 data    outp    we          wen         re          ren         VDD     VSS         bitcell
 
+.plot dc VDATA

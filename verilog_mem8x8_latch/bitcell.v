@@ -17,8 +17,6 @@ module bitcell
     wire Q1;
     wire Q2;
 
-
-
     pmos(Q0, inp, wen);
     nmos(Q0, inp, we);
 
