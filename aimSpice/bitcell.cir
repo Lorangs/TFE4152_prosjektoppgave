@@ -1,0 +1,4 @@
+.include "./gpdk90nm_tt.cir"
+
+VDD Vdd 0 1.0V
+

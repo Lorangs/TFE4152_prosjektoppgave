@@ -1,0 +1,142 @@
+
+                 *********************************************
+                 *                                           *
+                 *             A I M - S p i c e             *
+                 *                                           *
+                 *         Professional Version 2020.100           *
+                 *                                           *
+                 *********************************************
+
+	Date: Mon Oct 21 09:22:44 2024
+	Circuit File: C:\Users\Sebas\Documents\Studier\Semester9\IC\prosjekt\TFE4152_prosjektoppgave\aimSpice\bitcell.cir
+	Analysis: Transient
+
+**************************  Circuit Description  **************************
+
+     1:  * AimSPICE implementation of the bitcell
+     2:  * Using NMOS and PMOS models from gpdk90nm_tt.cir
+     3:  
+     4:  
+     5:  * Define power supply
+     6:  VDD Vdd 0 1.0V
+     7:  
+     8:  * Bitcell circuit
+     9:  * Nodes: BL (Bit Line), BLB (Bit Line Bar), WL (Word Line), Q (Data), QB (Data Bar)
+    10:  
+    11:  * Transistors
+    12:  * M1 and M2 are the access transistors
+    13:  * M3, M4, M5, and M6 form the cross-coupled inverters
+    14:  * M7 and M8 are the pull-up transistors
+    15:  * M9 and M10 are the pull-down transistors
+    16:  
+    17:  * Access transistor M1
+    18:  M1 Q WL BL Vdd NMOS L=90n W=180n
+    19:  * Access transistor M2
+    20:  M2 QB WL BLB Vdd NMOS L=90n W=180n
+    21:  
+    22:  * Cross-coupled inverter 1
+    23:  * PMOS transistor M3
+    24:  M3 Vdd Q QB Vdd PMOS L=90n W=360n
+    25:  * NMOS transistor M4
+    26:  M4 QB Q 0 Vdd NMOS L=90n W=180n
+    27:  
+    28:  * Cross-coupled inverter 2
+    29:  * PMOS transistor M5
+    30:  M5 Vdd QB Q Vdd PMOS L=90n W=360n
+    31:  * NMOS transistor M6
+    32:  M6 Q QB 0 Vdd NMOS L=90n W=180n
+    33:  
+    34:  * Pull-up transistor M7
+    35:  M7 Vdd Q Vdd Vdd PMOS L=90n W=180n
+    36:  * Pull-up transistor M8
+    37:  M8 Vdd QB Vdd Vdd PMOS L=90n W=180n
+    38:  
+    39:  * Pull-down transistor M9
+    40:  M9 Q 0 0 Vdd NMOS L=90n W=180n
+    41:  * Pull-down transistor M10
+    42:  M10 QB 0 0 Vdd NMOS L=90n W=180n
+    43:  
+    44:  * Initial conditions
+    45:  .ic V(Q)=0 V(QB)=1
+    46:  
+    47:  * Simulation control
+    48:  .tran 1n 100n
+    49:  
+    50:  * End of file
+    51:  .end
+
+***************************  Model Parameters  ****************************
+
+
+***************  Device Parameters (Only for .op analysis)  ***************
+
+
+
+**************************  Analysis Parameters  **************************
+
+	Stepsize ............ : 1n
+	Final time .......... : 100n
+	Use Initial Conditions: Off
+
+
+
+**************  Options (Only those different from default)  **************
+
+
+
+***************************  Kernel Messages  *****************************
+
+Circuit: * AimSPICE implementation of the bitcell
+
+Error: could not open include file "./gpdk90nm_tt.cir"
+Error on line 18 : m1 q wl bl vdd nmos l=90n w=180n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 20 : m2 qb wl blb vdd nmos l=90n w=180n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 24 : m3 vdd q qb vdd pmos l=90n w=360n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 26 : m4 qb q 0 vdd nmos l=90n w=180n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 30 : m5 vdd qb q vdd pmos l=90n w=360n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 32 : m6 q qb 0 vdd nmos l=90n w=180n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 35 : m7 vdd q vdd vdd pmos l=90n w=180n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 37 : m8 vdd qb vdd vdd pmos l=90n w=180n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 40 : m9 q 0 0 vdd nmos l=90n w=180n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+Error on line 42 : m10 qb 0 0 vdd nmos l=90n w=180n
+ unable to find definition of model w - default assumed 
+
+ error:  no unlabeled parameter permitted on mosfet
+
+
