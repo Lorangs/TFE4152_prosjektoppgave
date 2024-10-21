@@ -1,0 +1,119 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000001f513b494d0 .scope module, "FSM_tb" "FSM_tb" 2 3;
+ .timescale 0 0;
+v000001f513b53520_0 .var "clkPE", 0 0;
+v000001f513b535c0_0 .var "op", 0 0;
+v000001f513b538e0_0 .net "rw", 0 0, L_000001f513b476f0;  1 drivers
+v000001f513ba5310_0 .var "sel", 0 0;
+v000001f513ba49b0_0 .net "valid", 0 0, L_000001f513b48170;  1 drivers
+S_000001f513b0bf80 .scope module, "fsm1" "fsm" 2 10, 3 3 0, S_000001f513b494d0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "op";
+    .port_info 1 /INPUT 1 "sel";
+    .port_info 2 /INPUT 1 "clkPE";
+    .port_info 3 /OUTPUT 1 "valid";
+    .port_info 4 /OUTPUT 1 "rw";
+L_000001f513b47920 .functor AND 1, v000001f513b535c0_0, v000001f513ba5310_0, C4<1>, C4<1>;
+L_000001f513b47c30 .functor OR 1, L_000001f513b47920, L_000001f513b47990, C4<0>, C4<0>;
+L_000001f513b47990 .functor NOT 1, L_000001f513b47a70, C4<0>, C4<0>, C4<0>;
+L_000001f513b47a70 .functor NAND 1, L_000001f513b48170, L_000001f513b476f0, C4<1>, C4<1>;
+L_000001f513b47ae0 .functor AND 1, L_000001f513b47a70, v000001f513ba5310_0, C4<1>, C4<1>;
+v000001f513b53020_0 .net "P0", 0 0, L_000001f513b47920;  1 drivers
+v000001f513b53700_0 .net "P1", 0 0, L_000001f513b47990;  1 drivers
+v000001f513b53340_0 .net "P2", 0 0, L_000001f513b47a70;  1 drivers
+v000001f513b53160_0 .net "P3", 0 0, L_000001f513b47c30;  1 drivers
+v000001f513b53200_0 .net "P4", 0 0, L_000001f513b47ae0;  1 drivers
+v000001f513b52b20_0 .net "clkPE", 0 0, v000001f513b53520_0;  1 drivers
+v000001f513b532a0_0 .net "op", 0 0, v000001f513b535c0_0;  1 drivers
+v000001f513b533e0_0 .net "rw", 0 0, L_000001f513b476f0;  alias, 1 drivers
+v000001f513b53660_0 .net "sel", 0 0, v000001f513ba5310_0;  1 drivers
+v000001f513b53480_0 .net "valid", 0 0, L_000001f513b48170;  alias, 1 drivers
+S_000001f513b0c110 .scope module, "ff1" "flipflop" 3 24, 4 1 0, S_000001f513b0bf80;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "inp";
+    .port_info 1 /INPUT 1 "clkPE";
+    .port_info 2 /OUTPUT 1 "outp";
+L_000001f513b47b50 .functor NOT 1, L_000001f513b47c30, C4<0>, C4<0>, C4<0>;
+L_000001f513b48090 .functor NAND 1, L_000001f513b47c30, v000001f513b53520_0, C4<1>, C4<1>;
+L_000001f513b47d80 .functor NAND 1, L_000001f513b47b50, v000001f513b53520_0, C4<1>, C4<1>;
+L_000001f513b48170 .functor NAND 1, L_000001f513b48090, L_000001f513b47df0, C4<1>, C4<1>;
+L_000001f513b47df0 .functor NAND 1, L_000001f513b47d80, L_000001f513b48170, C4<1>, C4<1>;
+v000001f513b06f20_0 .net "P0", 0 0, L_000001f513b48090;  1 drivers
+v000001f513b06d00_0 .net "P1", 0 0, L_000001f513b47d80;  1 drivers
+v000001f513b53840_0 .net "clkPE", 0 0, v000001f513b53520_0;  alias, 1 drivers
+v000001f513b52a80_0 .net "inp", 0 0, L_000001f513b47c30;  alias, 1 drivers
+v000001f513b52d00_0 .net "inpn", 0 0, L_000001f513b47b50;  1 drivers
+v000001f513b52c60_0 .net "outp", 0 0, L_000001f513b48170;  alias, 1 drivers
+v000001f513b537a0_0 .net "outpn", 0 0, L_000001f513b47df0;  1 drivers
+S_000001f513b06680 .scope module, "ff2" "flipflop" 3 30, 4 1 0, S_000001f513b0bf80;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "inp";
+    .port_info 1 /INPUT 1 "clkPE";
+    .port_info 2 /OUTPUT 1 "outp";
+L_000001f513b47680 .functor NOT 1, L_000001f513b47ae0, C4<0>, C4<0>, C4<0>;
+L_000001f513b47d10 .functor NAND 1, L_000001f513b47ae0, v000001f513b53520_0, C4<1>, C4<1>;
+L_000001f513b47a00 .functor NAND 1, L_000001f513b47680, v000001f513b53520_0, C4<1>, C4<1>;
+L_000001f513b476f0 .functor NAND 1, L_000001f513b47d10, L_000001f513b477d0, C4<1>, C4<1>;
+L_000001f513b477d0 .functor NAND 1, L_000001f513b47a00, L_000001f513b476f0, C4<1>, C4<1>;
+v000001f513b52f80_0 .net "P0", 0 0, L_000001f513b47d10;  1 drivers
+v000001f513b52da0_0 .net "P1", 0 0, L_000001f513b47a00;  1 drivers
+v000001f513b52ee0_0 .net "clkPE", 0 0, v000001f513b53520_0;  alias, 1 drivers
+v000001f513b52bc0_0 .net "inp", 0 0, L_000001f513b47ae0;  alias, 1 drivers
+v000001f513b529e0_0 .net "inpn", 0 0, L_000001f513b47680;  1 drivers
+v000001f513b52e40_0 .net "outp", 0 0, L_000001f513b476f0;  alias, 1 drivers
+v000001f513b530c0_0 .net "outpn", 0 0, L_000001f513b477d0;  1 drivers
+    .scope S_000001f513b494d0;
+T_0 ;
+    %delay 9, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v000001f513b53520_0, 0, 1;
+    %delay 1, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000001f513b53520_0, 0, 1;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_000001f513b494d0;
+T_1 ;
+    %vpi_call 2 24 "$dumpfile", "FSM_waveform.vcd" {0 0 0};
+    %vpi_call 2 25 "$dumpvars", 32'sb00000000000000000000000000000001, S_000001f513b494d0 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000001f513b535c0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v000001f513ba5310_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v000001f513ba5310_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v000001f513b535c0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000001f513b535c0_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000001f513ba5310_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v000001f513ba5310_0, 0;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000001f513b535c0_0, 0;
+    %delay 100, 0;
+    %vpi_call 2 37 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    ".\FSM_tb.v";
+    "./FSM.v";
+    "./flipflop.v";
