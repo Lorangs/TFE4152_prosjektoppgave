@@ -1,0 +1,65 @@
+$date
+	Wed Oct 23 15:55:40 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module bytecell_tb $end
+$var wire 8 ! outp [7:0] $end
+$var reg 8 " inp [7:0] $end
+$var reg 8 # inpn [7:0] $end
+$var reg 1 $ op $end
+$var reg 1 % sel $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0%
+0$
+b11111111 #
+b0 "
+bz !
+$end
+#5
+bx !
+1%
+#10
+b1010101 #
+b10101010 "
+#15
+bz !
+1$
+#20
+b110011 #
+b11001100 "
+#25
+b11001100 !
+b1111 #
+b11110000 "
+0$
+#30
+bz !
+0%
+#35
+1%
+1$
+#40
+b11110000 !
+b10101010 #
+b1010101 "
+0$
+#45
+bz !
+0%
+1$
+#50
+b11111111 #
+b0 "
+0$
+#55
+b11110000 !
+1%
+#60

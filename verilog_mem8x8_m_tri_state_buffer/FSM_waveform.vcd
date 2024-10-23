@@ -1,0 +1,41 @@
+$date
+	Mon Oct 21 13:58:42 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module FSM_tb $end
+$var wire 1 ! valid $end
+$var wire 1 " rw $end
+$var reg 1 # clkPE $end
+$var reg 1 $ op $end
+$var reg 1 % sel $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0%
+0$
+x#
+x"
+x!
+$end
+#9
+0!
+0"
+1#
+#10
+1%
+0#
+#19
+1"
+1#
+#20
+1$
+0#

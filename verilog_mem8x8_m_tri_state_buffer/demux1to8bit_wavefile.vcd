@@ -1,0 +1,49 @@
+$date
+	Tue Oct 15 15:29:48 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module demux1to8bit_tb $end
+$var wire 8 ! outp [7:0] $end
+$var reg 3 " addr [2:0] $end
+$var reg 1 # inp $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0#
+b0 "
+b0 !
+$end
+#10
+b1 !
+1#
+#15
+b10 !
+b1 "
+#20
+b100 !
+b10 "
+#25
+b1000 !
+b11 "
+#30
+b10000 !
+b100 "
+#35
+b100000 !
+b101 "
+#40
+b1000000 !
+b110 "
+#45
+b10000000 !
+b111 "
+#50
+b0 !
+0#
+#55
