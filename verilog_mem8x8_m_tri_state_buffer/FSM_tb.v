@@ -1,7 +1,7 @@
 `include "FSM.v"
 
 module FSM_tb;
-    reg clkPE;
+    reg clk;
     reg op;
     reg sel;
     wire valid;
@@ -10,29 +10,29 @@ module FSM_tb;
     fsm fsm1 (
         .op(op),
         .sel(sel),
-        .clkPE(clkPE),
+        .clk(clk),
         .valid(valid),
         .rw(rw)
     );
 
     always begin
-        #9 clkPE = 1;
-        #1 clkPE = 0;
+        #5 clk = 1;
+        #5 clk = 0;
     end
 
     initial begin
         $dumpfile("FSM_waveform.vcd");
         $dumpvars(1, FSM_tb);
 
+        clk = 0;
         op  = 0;
         sel = 0;
 
-        #10 sel <= 1;
-        #10 op  <= 1;
-        #10 op  <= 0;
-        #10 sel <= 0;
-        #10 sel <= 1;
-        #10 op  <= 0;
+        #10 op <= 0; sel <= 1; // read, valid = 1, rw = 0
+        #20;
+        #10 op <= 1; sel <= 1; // write, valid = 1, rw = 1
+        #20; // occilate between write and stable
+        #10 op <= 0; sel <= 0;
         
         #100 $finish;
     end

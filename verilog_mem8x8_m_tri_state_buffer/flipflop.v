@@ -1,7 +1,7 @@
 module flipflop
     (
         input   inp,
-        input   clkPE,
+        input   clk,
         output  outp
     );
 
@@ -9,6 +9,11 @@ module flipflop
     wire P1;
     wire inpn;
     wire outpn;
+    wire clkN;
+    wire clkPE;
+
+    not(clkN, clk);
+    and(clkPE, clk, clkN);
 
     not(inpn, inp);
     nand(P0, inp, clkPE);

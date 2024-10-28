@@ -4,7 +4,7 @@ module fsm
     (
         input op,
         input sel,
-        input clkPE,
+        input clk,
         output valid,
         output rw
     );
@@ -23,13 +23,13 @@ module fsm
 
     flipflop ff1 (
         .inp(P3),
-        .clkPE(clkPE),
-        .outp(valid)
+        .clk(clk),
+        .outp(rw)
     );
 
     flipflop ff2 (
         .inp(P4),
-        .clkPE(clkPE),
-        .outp(rw)
+        .clk(clk),
+        .outp(valid)
     );
 endmodule
