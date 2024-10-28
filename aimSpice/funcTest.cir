@@ -1,0 +1,28 @@
+*Test of functionality
+
+
+
+.include .\subcircuits.cir
+
+
+
+V1 1 0 dc Vdd
+Vdata Data 0 PULSE(0 Vdd 50ns 0.1ns 0.1ns 50ns 100ns)
+VdataN DataN 0 PULSE(Vdd 0 50ns 0.1ns 0.1ns 50ns 100ns)
+Vwe WE 0 PULSE(0 Vdd 10ns 0.1ns 0.1ns 10ns 50ns)
+Vre RE 0 PULSE(0 Vdd 30ns 0.1ns 0.1ns 10ns 50ns)
+VreN REN 0 PULSE(Vdd 0 30ns 0.1ns 0.1ns 10ns 50ns)
+
+
+
+xBitcell Data DataN WE RE REN outp 1 0 Bitcell
+*R1 outp 0 1000k
+
+
+
+.tran 10n 100n
+*.plot v(Data) v(DataN) 
+*.plot v(WE) v(RE) v(REN) 
+*.plot v(outp)
+*.plot i(v1)
+.plot v(Data) v(WE) v(RE) v(outp)

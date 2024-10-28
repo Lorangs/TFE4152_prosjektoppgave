@@ -1,61 +1,90 @@
-**********
-* PARAMS * 
-**********
+*bitcell
 
-*TODO: change:
-.param ln = 350n 
-.param lp = 350n
-.param wn = 700n
-.param wp = 1500n
+.include .\gpdk90nm_ff.cir
 
 
 
-*********************
-* TRANSMISSION GATE *
-*********************
+*Parameters
+.param Vdd=0.99
+.options temp=27
+.param L1=299n
+.param W1=101n
 
-*       name                input   pmos gate   nmos gate   output  powerup powerdown
-.subckt transmission_gate   inp     pmos_gate   nmos_gate   outp    VDD     VSS
 
-*           Drain   Gate        Source  Bulk    Type    Length  Width
-xinternal_p1 outp    pmos_gate   inp     VDD     pmos1v  l = lp  w = wp
-xinternal_n1 inp     nmos_gate   outp    VSS     nmos1v  l = ln  w = wn
 
+*NAND
+.subckt 2inNAND in1 in2 out1 Vdd Vss
+xmp1 Vdd in1 out1 Vdd pmos1v L=L1 W=W1
+xmp2 Vdd in2 out1 Vdd pmos1v L=L1 W=W1
+
+xmn1 out1 in1 dn2 Vss nmos1v L=L1 W=W1
+xmn2 dn2 in2 Vss Vss nmos1v L=L1 W=W1
 .ends
 
 
 
-************
-* NOT GATE *
-************
-
-*       name     input  output  powerup powerdown
-.subckt not_gate inp    outp    VDD     VSS
-
-*           Drain   Gate    Source  Bulk    Type   Length   Width
-xinternal_p2 outp    inp     VDD     VDD     pmos1v l = lp   w = wp
-xinternal_n2 outp    inp     VSS     VSS     nmos1v l = ln   w = wn
-
+*D-LATCH
+.subckt Dlatch Data DataN WE outpQ1N Vdd Vss
+xNAND1 Data WE Q0 Vdd Vss 2inNAND
+xNAND2 DataN WE Q0N Vdd Vss 2inNAND
+xNAND3 Q0 outpQ1N Q1 Vdd Vss 2inNAND
+xNAND4 Q0N Q1 outpQ1N Vdd Vss 2inNAND
 .ends
 
 
 
-***********
-* BITCELL *
-***********
+*Tri-state buffer
+.subckt TSbuffer inp RE REN outp Vdd Vss
+xmp1 T0 REN Vdd Vdd pmos1v L=L1 W=W1
+xmp2 outp inp T0 T0 pmos1v L=L1 W=W1
 
-*       name    input   output  writeEN     writeENneg  readEN      readENneg   powerup powerdown
-.subckt bitcell inp     outp    we          wen         re          ren         VDD     VSS
-
-* kanskje TODO: definer Q0, Q1, Q2
-
-*   input   pmos gate   nmos gate   output  powerup powerdown   type(transmission_gate)
-xTG1 inp     wen         we          Q0      VDD     VSS         transmission_gate
-xTG2 Q2      we          wen         Q0      VDD     VSS         transmission_gate
-xTG3 Q2      ren         re          outp    VDD     VSS         transmission_gate
-
-*       input   output  powerup powerdown   type(not_gate)
-xNOT1    Q0      Q1      VDD     VSS         not_gate
-xNOT2    Q1      Q2      VDD     VSS         not_gate
-
+xmn1 outp inp T1 T1 nmos1v L=L1 W=W1
+xmn2 T1 RE Vss Vss nmos1v L=L1 W=W1
 .ends
+
+
+
+**Tri-state Test signals
+*V1 1 0 dc Vdd
+*Vinp inp 0 PULSE(0 Vdd 10ns 0.1ns 0.1ns 10ns 20ns)
+*Vre RE 0 PULSE(0 Vdd 5ns 0.1ns 0.1ns 5ns 10ns)
+*VreN REN 0 PULSE(Vdd 0 5ns 0.1ns 0.1ns 5ns 10ns)
+*
+*xTS1 inp RE REN outp 1 0 TSbuffer
+*
+*.tran 10n 20n
+*.plot v(inp) v(RE) v(outp)
+
+
+
+*Bitcell
+.subckt Bitcell Data DataN WE RE REN outp Vdd Vss
+xDL1 Data DataN WE Q1N Vdd Vss Dlatch
+xTS1 Q1N RE REN outp Vdd Vss TSbuffer
+.ends
+
+
+
+**Test signals
+*V1 1 0 dc Vdd
+*Vdata Data 0 PULSE(0 Vdd 10ns 0.1ns 0.1ns 30ns 100ns)
+*VdataN DataN 0 PULSE(Vdd 0 10ns 0.1ns 0.1ns 30ns 100ns)
+*Vwe WE 0 PULSE(0 Vdd 20ns 0.1ns 0.1ns 10ns 100ns)
+*Vre RE 0 PULSE(0 Vdd 50ns 0.1ns 0.1ns 10ns 100ns)
+*VreN REN 0 PULSE(Vdd 0 50ns 0.1ns 0.1ns 10ns 100ns)
+
+**Testing functionality
+*xBitcell Data DataN WE RE REN outp 1 0 Bitcell
+*R1 outp 0 1000k
+*.tran 10n 100n
+
+*.plot v(Data) v(DataN) 
+*.plot v(WE) v(RE) v(REN) 
+*.plot v(outp)
+*.plot i(v1)
+
+*.plot v(Data) v(WE) v(RE) v(outp)
+
+*Static bitcell for leakage measurement
+*xBitcell Data DataN WE RE REN Y Vdd 0 Bitcell
+*.op xBitcell

@@ -1,0 +1,28 @@
+*Test of leakage current
+
+
+
+.include .\subcircuits.cir
+
+
+
+*Test signals
+V1 1 0 dc Vdd
+Vdata Data 0 dc Vdd
+VdataN DataN 0 dc 0
+Vwe WE 0 dc Vdd
+Vre RE 0 dc Vdd
+VreN REN 0 dc 0
+
+
+
+*Static bitcell for leakage measurement
+xBitcell Data DataN WE RE REN outp 1 0 Bitcell
+.tran 10n 100ns
+*.op xBitcell
+.plot i(V1)
+
+
+
+*RESULTAT: -6.9e-09 A
+

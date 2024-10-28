@@ -1,0 +1,26 @@
+*Test of write time
+
+
+
+.include .\subcircuits.cir
+
+
+
+*Test signals
+V1 1 0 dc Vdd
+Vdata Data 0 PULSE(0 Vdd 2.5ns 0.1ns 0.1ns 3ns 10ns)
+VdataN DataN 0 PULSE(Vdd 0 2.5ns 0.1ns 0.1ns 3ns 10ns)
+Vwe WE 0 dc Vdd
+Vre RE 0 dc Vdd
+VreN REN 0 dc 0
+
+*Testing functionality
+xBitcell Data DataN WE RE REN outp 1 0 Bitcell
+*R1 outp 0 1000k
+
+.tran 1n 10n
+*.plot v(Data) v(DataN)
+*.plot v(WE) v(RE) v(REN) 
+*.plot v(outp)
+*.plot i(v1)
+.plot v(WE) v(RE) v(Data) v(outp)
