@@ -13,12 +13,14 @@ module ram
     wire    [7:0]   outp_demux;
     wire    [7:0]   inpn;
 
-    // invert the input
-    genvar j; generate
-        for(j = 0; j < 8; j = j + 1) begin : inpn_insts1
-            assign inpn[j] = ~inp[j];
-        end
-    endgenerate
+    not(inpn[0], inp[0]);
+    not(inpn[1], inp[1]);
+    not(inpn[2], inp[2]);
+    not(inpn[3], inp[3]);
+    not(inpn[4], inp[4]);
+    not(inpn[5], inp[5]);
+    not(inpn[6], inp[6]);
+    not(inpn[7], inp[7]);
 
     demux1to8bit demux1to8bit_inst1
     (
