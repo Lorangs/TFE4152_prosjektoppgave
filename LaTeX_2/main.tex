@@ -4,6 +4,21 @@
 \usepackage{cite}
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 
+% --- Mathematics ---
+\usepackage{bm}         % Bold text in math mode
+\usepackage{amsmath}    % Math formulas and improved typographical quality of their output
+\usepackage{amssymb}    % Extended symbol collection
+\usepackage{amsthm}     % Helps define theorem-like structures
+\usepackage{textcomp}   % Used in the package "gensymb" (below), which will give warnings if "textcomp" is not imported in advance
+\usepackage{gensymb}    % Adds extra generic symbols for math and text mode, e.g. \degree
+
+% --- Main matter ---
+% This is the main part of the paper.
+\newcommand{\mainmatter}{
+    \newpage
+    \pagenumbering{arabic}  % Setting page numbering to normal integers
+}
+
 \usepackage[colorlinks=true,allcolors=black]{hyperref}
 \usepackage[british]{babel}     % Defining UK English as language. This will among other things ensure that dates are displayed as 24/03/1997 rather than 03/24/1997 in the bibliography.
 \addto\extrasbritish{   % Change naming of different functions, e.g. figure references.
@@ -31,14 +46,13 @@
 \vbox{ }
 
 % Title
-\HRule \\[0.4cm]
-{ \huge \bfseries TITLE}\\[0.4cm] %TODO: replace "TITLE" with some project title, e.g. "Design of a Multiply Accumulate Unit"
-\HRule \\[1.5cm]
+{ \huge \bfseries 8x8-bit Memory System}\\[0.4cm] 
 
 % Author
 \large
-\emph{Author:}\\
-Group $\pi$ %TODO: Replace this line with your group number names
+\emph{Authors:}\\
+L. Strand \& S.W. Kalland \\
+Group 3
 \vfill
 
 \end{center}
