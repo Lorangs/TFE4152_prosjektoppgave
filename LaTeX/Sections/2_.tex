@@ -1,0 +1,48 @@
+\section{Tables}
+
+\begin{table}[]
+    \label{tab:state_code}
+    \caption{State code and their meaning.}
+    \centering
+    \begin{tabular}{|l|c|}
+        \hline
+        State   &   Code    \\  \hline
+        IDLE    &   0 X     \\  
+        STABLE  &   0 1     \\
+        READ    &   1 0     \\
+        WRITE   &   1 1     \\  \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[]
+    \label{tab:FSM_truth_table}
+    \caption{Truth table for Finite State Machine.}
+    \centering
+    \begin{tabular}{|cc|cc|cc|cc|}
+        \hline
+        \multicolumn{2}{|l|}{State} & \multicolumn{2}{l|}{Input} & \multicolumn{2}{l|}{State nxt} & \multicolumn{2}{l|}{Output}        \\ \hline
+                     &              & Op          & Sel          &                &               & Valid & R/W \\
+        A            & B            & C           & D            & E              & F             & G     & H                          \\ \hline
+        0            & 0            & 0           & 0            & 0              & X             & 0     & X                          \\
+        0            & 0            & 0           & 1            & 1              & 0             & 0     & X                          \\
+        0            & 0            & 1           & 0            & 0              & X             & 0     & X                          \\
+        0            & 0            & 1           & 1            & 1              & 1             & 0     & X                          \\
+        0            & 1            & 0           & 0            & 0              & X             & 1     & 0                          \\
+        0            & 1            & 0           & 1            & 1              & 0             & 1     & 0                          \\
+        0            & 1            & 1           & 0            & 0              & X             & 1     & 0                          \\
+        0            & 1            & 1           & 1            & 1              & 1             & 1     & 0                          \\
+        1            & 0            & 0           & 0            & 0              & X             & 0     & 1                          \\
+        1            & 0            & 0           & 1            & 1              & 0             & 0     & 1                          \\
+        1            & 0            & 1           & 0            & 0              & X             & 0     & 1                          \\
+        1            & 0            & 1           & 1            & 1              & 1             & 0     & 1                          \\
+        1            & 1            & 0           & 0            & 0              & 1             & 1     & 1                          \\
+        1            & 1            & 0           & 1            & 0              & 1             & 1     & 1                          \\
+        1            & 1            & 1           & 0            & 0              & 1             & 1     & 1                          \\
+        1            & 1            & 1           & 1            & 0              & 1             & 1     & 1                          \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{equation}
+    
+\end{equation}
