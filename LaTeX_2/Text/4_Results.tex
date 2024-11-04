@@ -1,12 +1,41 @@
 \section{Simulations and Results}\label{sec:Results}
-Present the results of your simulations in this section. Use tables and graphs or other figures to illustrate your results. Remember: The table caption goes above the table, the figure caption goes below the figure.
+All analog simulations were performed in the language of \textit{AIMSpice} in the \textit{AIM-Spice} computer program. All analog simulations were performed in the language \textit{Verilog}, with the editor \textit{VSCode}, compiler \textit{Icarus Verilog} and waveform plotter \textit{gtkwave}.
 
-For each test/simulation, make sure to answer the following: 
+\subsection{Analog bitcell}
+The analog behavior of the bitcell was simulated to show the functionality at different temperatures and with different configurations of slow/fast nmos/pmos transistors, as well as the read-time, the write-time and the leakage current for the SS, TT and FF (TODO: write in theory) configurations. 
 
-\quad Why are you doing this test? 
+\subsubsection{Leakage}
+The leakage currents at different configurations:
+\begin{figure}
+    \includegraphics[width=0.3\linewidth]{aimSpice/plots/plotsSS/leak.png}
+    \includegraphics[width=0.3\linewidth]{aimSpice/plots/plotsTT/leak.png}
+    \includegraphics[width=0.3\linewidth]{aimSpice/plots/plotsFF/leak.png}
+    \caption{Leakage currents at SS, TT and FF (from left to right)}
+    \label{fig:04:leakage}
+\end{figure}
 
-\quad Can you describe the testbench? E.g. applied stimuli, the circuit being tested etc.
+\subsection{Digital bitcell}
+The bitcell's behaviour was digitally simulated with inputs and outputs as can be observed in \autoref{fig:04:bitcell_tb}.
 
-\quad What were the results? Use figures and/or tables to present them. 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{LaTeX_2/Figures/bitcell_tb.png}
+    \caption{Testbench of the bitcell}
+    \label{fig:04:bitcell_tb}
+\end{figure}
 
-\quad Are the results as expected / within spec? \textit{NOTE: This is not the place to discuss why the results are as they are, that should be saved for the discussion-section.}
+In the testbench we first try to read the bitcell before any value has been set, then we write a logic high, read it, write a logic low, and read that too. 
+
+REN is not shown in the figure, since it is trivial.
+
+\subsection{RAM}
+
+
+
+\subsection{FSM}
+
+
+
+\subsection{Complete memory module}
+
+
