@@ -11,6 +11,7 @@
 \usepackage{amsthm}     % Helps define theorem-like structures
 \usepackage{textcomp}   % Used in the package "gensymb" (below), which will give warnings if "textcomp" is not imported in advance
 \usepackage{gensymb}    % Adds extra generic symbols for math and text mode, e.g. \degree
+\usepackage{subfigure}
 
 % --- Main matter ---
 % This is the main part of the paper.
@@ -58,15 +59,14 @@ Group 3
 \end{center}
 \end{titlepage}
 
-\input{Text/0_Abstract}
-\input{Text/1_Introduction}
-\input{Text/2_Theory}
-\input{Text/3_Method}
-\input{Text/4_Results}
-\input{Text/5_Discussion}
-\input{Text/6_Conclusion}
+\input{Text/0_Abstract} \newpage
+\input{Text/1_Introduction} \newpage
+\input{Text/2_Theory} \newpage
+\input{Text/3_Method} \newpage
+\input{Text/4_Results} \newpage
+\input{Text/5_Discussion} \newpage
+\input{Text/6_Conclusion} \newpage
 
-\newpage
 \addcontentsline{toc}{section}{References}
 \bibliographystyle{unsrt}
 \bibliography{bibliography}
