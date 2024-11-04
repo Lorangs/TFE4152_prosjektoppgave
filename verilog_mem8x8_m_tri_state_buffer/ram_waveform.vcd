@@ -9,7 +9,7 @@ $timescale
 $end
 $scope module ram_tb $end
 $var wire 8 ! outp [7:0] $end
-$var reg 3 " addr [2:0] $end
+$var reg 3 " adr [2:0] $end
 $var reg 8 # inp [7:0] $end
 $var reg 1 $ op $end
 $var reg 1 % sel $end
