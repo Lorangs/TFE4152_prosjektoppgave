@@ -1,6 +1,6 @@
 *bitcell
 
-.include .\gpdk90nm_ff.cir
+.include .\gpdk90nm_ss.cir
 
 
 
