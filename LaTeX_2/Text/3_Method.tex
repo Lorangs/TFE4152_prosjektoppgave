@@ -4,15 +4,18 @@
 %TODO: add figure of system diagram (FSM + RAM):
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{}
+    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/memory_block_schematic.png}
     \caption{System diagram}
     \label{fig:03:system_diagram}
 \end{figure}
 
-Our system consists of a Finite State Machine and a Random Access Memory, as can be seen in \autoref{fig:system_diagram}. The FSM serves as a control unit to make sure all operations on the RAM are performed in a stable manner. The FSM is connected to a clock signal, but the RAM is not directly, only indirectly through being controlled by the FSM.
+Our system consists of a Finite State Machine and a Random Access Memory, as can be seen in \autoref{fig:03:system_diagram}. The FSM serves as a control unit to make sure all operations on the RAM are performed in a stable manner. The FSM is connected to a clock signal, but the RAM is not directly, only indirectly through controll by the FSM.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                         RAM                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{RAM}
-The RAM subsystem concists of bitcells forming bytecells that stack on top of each other to form the full memory. It has these outputs and inputs:
+The RAM subsystem consists of eight bitcells forming eight bytecells that stack on top of each other to form the full memory. It has these inputs and outputs:
 \begin{itemize}
     \item \makebox[2cm]{adr \hfill} - 3-bit address signal
     \item \makebox[2cm]{inp \hfill} - 8-bit input data to be stored in address
@@ -20,24 +23,28 @@ The RAM subsystem concists of bitcells forming bytecells that stack on top of ea
     \item \makebox[2cm]{op \hfill} - either 0 for read or 1 for write
     \item \makebox[2cm]{sel \hfill} - must be 1 for op to affect the circuit
 \end{itemize}
-When the circuit is reading, meaning op is low, the output is what is stored in the currently addressed bytecell. When it is writing, the outp is Z (high resistance), meaning it can be easily overwritten, and should not be trusted. We chose our output to be Z as that seemed like the clearest solution, where it is necessary for the circuit to be in read mode in order to be read from.
 
-The RAM's circuit is as in \autoref{fig:03:RAM_schematic}. It consists of 
+When the circuit is reading, meaning \textsc{op} is low, the output is what is stored in the currently addressed bytecell. When it is writing, the outp is Z (high resistance), meaning it can be easily overwritten, and should not be trusted. We chose our output to be Z as that seemed like the clearest solution, since it is necessary for the circuit to be in read mode in order to be read from.
+
+The RAM's circuit is as in \autoref{fig:03:RAM_schematic}. It consists of eight bytecell modules. Each of the output busses is connected together as it is only possible to read from one of the bytecell modules at a time.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{LaTeX_2/Figures/memory_block_schematic.png}
+    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/ram_schematic.png}
     \caption{Full schematic for the RAM subsystem}
     \label{fig:03:RAM_schematic}
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                         BITCELL                                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{The bitcell}
 The bitcell concists of a D-latch and a tri-state-buffer. The logic schematic of the D-latch, connected to the transistor schematic of a tri-state-buffer, can be seen in \autoref{fig:03:bitcell_schematic}.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/bitcell.png}
+    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/bitcell_schematic.png}
     \caption{Wiring schematic for the bitcell module}
     \label{fig:03:bitcell_schematic}
 \end{figure}
@@ -50,31 +57,27 @@ The bitcell has inputs and outputs:
     \item \makebox[2cm]{WE \hfill} - Write Enable, must be high to store a new value
     \item \makebox[2cm]{RE \hfill} - Read Enable, must be high to set outp to the stored value
 \end{itemize}
-The stored value sits in $Q_1$. We chose to implement the bitcell with a tri-state-buffer at the output in order to be able to set it to Z. When that is possible, the data can be written to shared data buses between bitcells. This simplifies the rest of the design a lot, since there is no need for a multiplexer to choose which address to read from.
 
-The transistor circuit implementation of the D-latch in the bitcell can be seen in \autoref{fig:03:D-latch_schematic}.
+The stored value sits in $\overline{Q_1}$, since the tri-state buffer acts as an iverter. We choose to implement the bitcell with a tri-state-buffer in order to make the output high impedance ($Z$) when \textsc{RE} is low. This is to ensure that the common bus in the RAM module can be overwritten by the selected bytecell module if \textsc{RE} is active.
+This simplifies the rest of the design, since there is no need for a multiplexer to choose which address to read data from. 
 
-%TODO: add figure of transistor circuit D-latch
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{}
-    \caption{Circuit schematic of the D-latch in the bitcell}
-    \label{fig:03:D-latch_schematic}
-\end{figure}
+\hspace{}
 
-TODO: Bitcell analog properties
+The leakage current of each bitcell are a sum of the leakage current of all the transistors that make up one bitcell. In total there are 20 transistors in each bitcell, 10 \textsc{NMOS} and 10 \textsc{PMOS}. The leakage current of one \textsc{NMOS} can be estimated from equation \ref{eq:03:leakage_current}
+TODO: Bitcell analog properties. W, L, VDD
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                         BYTECELL                                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{The bytecell}
 The bytecell consists of 8 bitcells and an F-block (function block) meant to translate the input signals of the bytecell to the required inputs of each of its bitcells. The bitcells all write their outputs to 8 different wires, which we refer to as the data bus. The bytecell can be seen in \autoref{fig:03:bytecell_schematic}.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \begin{subfigure*}
-        \includegraphics[width=0.45\linewidth]{LaTeX_2/Figures/bytecell.png}
-    \end{subfigure*}
-    \begin{subfigure*}
-        \includegraphics[width=0.45\textwidth]{LaTeX_2/Figures/f_blokk.png}
-    \end{subfigure*}
+    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/bytecell_schematic.png}
     \caption{Wiring schematic for the bytecell module}
     \label{fig:03:bytecell_schematic}
 \end{figure}
@@ -83,12 +86,28 @@ The inputs and outputs of the bytecell are almost identical to those of the RAM,
 
 The F-block was designed to set WE high only when op and sel are high, and to set RE high only when op is low and sel is high, and otherwise to set both WE and RE to low.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                         FMS                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{FSM}
 The finite state machine is meant to work as an interface for stable use of the RAM subsystem. Together they make up the memory system. It was designed by looking at the state diagram, \autoref{fig:03:state_diagram}, from the project task. Then proceeding by giving code values to each of the states, \autoref{tab:03:state_code}, setting up a truth table, \autoref{tab:03:FSM_truth_table}, and using the logical relations between the inputs, outputs, current state and next state, \autoref{eq:03:boolean_equation}, to design a typical FSM circuit, \autoref{fig:03:FSM_schematic}.
 
+
+The transistor circuit implementation of the D-latch in the bitcell can be seen in \autoref{fig:03:D-latch_schematic}.
+
+%TODO: add figure of transistor circuit for the D-latch
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/flipflop.png}
+    \caption{Circuit schematic of the D-latch in the bitcell}
+    \label{fig:03:D-latch_schematic}
+\end{figure}
+
+
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{LaTeX_2/Figures/state_diagram.png}
+    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/state_diagram.png}
     \caption{Desired state diagram \cite{oppgavebeskrivelse}}
     \label{fig:03:state_diagram}
 \end{figure}
@@ -110,7 +129,7 @@ The finite state machine is meant to work as an interface for stable use of the 
 \subsubsection{Circuit design}
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{LaTeX_2/Figures/fsm.png}
+    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/fsm_schematic.png}
     \caption{Wiring schematic for the FSM logic.}
     \label{fig:03:FSM_schematic}
 \end{figure}
