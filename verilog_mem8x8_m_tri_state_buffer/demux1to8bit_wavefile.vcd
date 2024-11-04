@@ -9,7 +9,7 @@ $timescale
 $end
 $scope module demux1to8bit_tb $end
 $var wire 8 ! outp [7:0] $end
-$var reg 3 " addr [2:0] $end
+$var reg 3 " adr [2:0] $end
 $var reg 1 # inp $end
 $upscope $end
 $enddefinitions $end

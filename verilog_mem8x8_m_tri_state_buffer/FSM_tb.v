@@ -28,12 +28,12 @@ module FSM_tb;
         op  = 0;
         sel = 0;
 
-        #10 op <= 0; sel <= 1; // read, valid = 1, rw = 0
+        #30 op <= 0; sel <= 1; // read, valid = 1, rw = 0
         #20;
         #10 op <= 1; sel <= 1; // write, valid = 1, rw = 1
         #20; // occilate between write and stable
         #10 op <= 0; sel <= 0;
         
-        #100 $finish;
+        #50 $finish;
     end
 endmodule

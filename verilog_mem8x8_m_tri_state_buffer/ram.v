@@ -1,16 +1,10 @@
-/* 
-8x8 bit SRAM modul
-se vedlegg for kretskjema.
- */
-
-// include the bytecell modules used for this project
 `include "bytecell.v"               
 `include "demux1to8bit.v"
 
 module ram
     (
         input   [7:0]   inp,
-        input   [2:0]   addr,
+        input   [2:0]   adr,
         input           op,
         input           sel,
         output  [7:0]   outp
@@ -19,23 +13,23 @@ module ram
     wire    [7:0]   outp_demux;
     wire    [7:0]   inpn;
 
+    not(inpn[0], inp[0]);
+    not(inpn[1], inp[1]);
+    not(inpn[2], inp[2]);
+    not(inpn[3], inp[3]);
+    not(inpn[4], inp[4]);
+    not(inpn[5], inp[5]);
+    not(inpn[6], inp[6]);
+    not(inpn[7], inp[7]);
 
-    // invert the input
-    genvar j; generate
-        for(j = 0; j < 8; j = j + 1) begin : inpn_insts1
-            assign inpn[j] = ~inp[j];
-        end
-    endgenerate
-
-    // instantiate the demux1to8bit module
     demux1to8bit demux1to8bit_inst1
     (
         .inp    (sel),
-        .addr   (addr),
+        .adr    (adr),
         .outp   (outp_demux)
     );
 
-    // instantiate the 8 bytecell modules
+    // instantiate 8 bytecell modules
     genvar i; generate
         for (i = 0; i < 8; i = i + 1) begin : bytecell_insts1
             bytecell bytecell_inst (

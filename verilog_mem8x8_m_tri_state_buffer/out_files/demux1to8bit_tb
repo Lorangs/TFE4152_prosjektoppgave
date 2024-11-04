@@ -9,13 +9,13 @@
 :vpi_module "/usr/local/lib/ivl/va_math.vpi";
 S_0x5d0fc14c4120 .scope module, "demux1to8bit_tb" "demux1to8bit_tb" 2 4;
  .timescale 0 0;
-v0x5d0fc14e2490_0 .var "addr", 2 0;
+v0x5d0fc14e2490_0 .var "adr", 2 0;
 v0x5d0fc14e2550_0 .var "inp", 0 0;
 v0x5d0fc14e2620_0 .net "outp", 7 0, L_0x5d0fc14e4c70;  1 drivers
 S_0x5d0fc14c42b0 .scope module, "demux1to8bit_inst1" "demux1to8bit" 2 9, 3 5 0, S_0x5d0fc14c4120;
  .timescale 0 0;
     .port_info 0 /INPUT 1 "inp";
-    .port_info 1 /INPUT 3 "addr";
+    .port_info 1 /INPUT 3 "adr";
     .port_info 2 /OUTPUT 8 "outp";
 L_0x5d0fc14e2720 .functor NOT 1, L_0x5d0fc14e27f0, C4<0>, C4<0>, C4<0>;
 L_0x5d0fc14e28e0 .functor NOT 1, L_0x5d0fc14e2950, C4<0>, C4<0>, C4<0>;
@@ -66,9 +66,9 @@ v0x5d0fc14e1d30_0 .net *"_ivl_84", 0 0, L_0x5d0fc14e5180;  1 drivers
 v0x5d0fc14e1e10_0 .net *"_ivl_86", 0 0, L_0x5d0fc14e5270;  1 drivers
 v0x5d0fc14e1ef0_0 .net *"_ivl_88", 0 0, L_0x5d0fc14e5450;  1 drivers
 v0x5d0fc14e1fd0_0 .net *"_ivl_9", 0 0, L_0x5d0fc14e2950;  1 drivers
-v0x5d0fc14e20b0_0 .net "addr", 2 0, v0x5d0fc14e2490_0;  1 drivers
+v0x5d0fc14e20b0_0 .net "adr", 2 0, v0x5d0fc14e2490_0;  1 drivers
 v0x5d0fc14e2190_0 .net "inp", 0 0, v0x5d0fc14e2550_0;  1 drivers
-v0x5d0fc14e2250_0 .net "not_addr", 2 0, L_0x5d0fc14e2a40;  1 drivers
+v0x5d0fc14e2250_0 .net "not_adr", 2 0, L_0x5d0fc14e2a40;  1 drivers
 v0x5d0fc14e2330_0 .net "outp", 7 0, L_0x5d0fc14e4c70;  alias, 1 drivers
 L_0x5d0fc14e27f0 .part v0x5d0fc14e2490_0, 0, 1;
 L_0x5d0fc14e2950 .part v0x5d0fc14e2490_0, 1, 1;
