@@ -8,7 +8,7 @@
 %Length: For a report this length, around half a page would probably be good. Maximum one page.
     This report contains the design of an 8x8-bit memory module for low-power applications with a leakage current of 2 to \SI{6}{nA} at a supply voltage of \SI{0.99}{V}.
     
-    The memory module consists of a Finite State Machine that acts as a control unit to the SRAM independent of the system clock. It has a read/write time of less than \SI{3}{ns}, but requires two clock cycles to write, as opposed to a single clock cycle to read.
+    The memory module consists of a Finite State Machine that acts as a control unit to a clock-independent SRAM. It has a read/write time of less than \SI{3}{ns}, but requires two clock cycles to write, as opposed to a single clock cycle to read.
 
     The entire system is implemented at a logic gate level, with appendixes containing sufficient Verilog code to digitally simulate the system.
 \end{abstract}
