@@ -4,6 +4,9 @@
 \usepackage{cite}
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 \usepackage{float}
+\usepackage{siunitx}
+\usepackage{minted}
+\usepackage{titlesec}
 
 % --- Mathematics ---
 \usepackage{bm}         % Bold text in math mode
@@ -61,6 +64,7 @@ Group 3
 \end{titlepage}
 
 \input{Text/0_Abstract} \newpage
+\tableofcontents \newpage
 \input{Text/1_Introduction} \newpage
 \input{Text/2_Theory} \newpage
 \input{Text/3_Method} \newpage
@@ -78,5 +82,5 @@ Group 3
 \textbf{\Huge Appendices}
 \end{center}
 \addcontentsline{toc}{section}{Appendices}
-\include{Text/appendix.tex}
+\include{Text/7_appendix.tex}
 \end{document}

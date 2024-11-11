@@ -1,12 +1,13 @@
-\section{Conclusion}
-Make some concluding remarks. The length of this section should be somewhere between a paragraph and a page.
+\section{Conclusion}    \label{sec:06:conclusion}
+In this report we have designed an 8x8-bit memory module for an IoT device. It has been implemented in Verilog with hierarchical modules. The memory unit operates as expected as shown by the testbenches in \autoref{sec:04:results}. 
 
-The conclusion should include your key findings. Make the conclusion as concrete as possible by using numbers for the result (e.g. what was the static power consumption at a given supply voltage).
+Additionally, the bitcell has been simulated in the simulation tool \textit{AIM-Spice}, and the simulation results are well within what the project demanded. We are especially fond of the small leakage current achieved, \SI{2}{nA}, for the SS variation corner, as shown in \autoref{fig:04:leakage}. These results confirm that our implimentation is viable solution for a low energy memory unit.
 
-You should answer the following:
+Based on the results, we would recommend using this system for low-power applications, and certainly not for any cache close to a system CPU. It would be more suited for third level cache or as a main memory unit.
 
-\quad What did you achieve?
-
-\quad Does this align with what you set out to achieve at the start?
-
-\quad Are there any particular results you want to highlight?
+%Make some concluding remarks. The length of this section should be somewhere between a paragraph and a page.
+%The conclusion should include your key findings. Make the conclusion as concrete as possible by using numbers for the result (e.g. what was the static power consumption at a given supply voltage).
+%You should answer the following:
+%\quad What did you achieve?
+%\quad Does this align with what you set out to achieve at the start?
+%\quad Are there any particular results you want to highlight?

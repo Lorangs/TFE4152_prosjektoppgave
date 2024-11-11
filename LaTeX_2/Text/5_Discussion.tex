@@ -1,17 +1,30 @@
-\section{Discussion}
-Discuss your results. You presented your results in the last section, so you do not need to repeat everything here. Just focus on the most interesting results and discuss these.
+\section{Discussion}    \label{sec:05:discussion}
+%Discuss your results. You presented your results in the last section, so you do not need to repeat everything here. Just focus on the most interesting results and discuss these.
+%Was there anything unexpected or weird about your results? What are possible explanations for these observations? It is good to draw on theory. This section and the theory section are the sections where it is natural to have the most references to literature (papers, the book, other).
+%The discussion section should aim to cover the following:
+    %\quad If the circuit did not work properly, \textit{why} might that be? 
+    %\quad If some of your results turn out differently than you expected: \textit{Why}? You do not have to come to a definite answer, but should try to discuss at least one possible explanation.
+    %\quad Are there any parts of your implementation you would do differently, given another chance?
+    %\quad It could be interesting to discuss the choices you made to reduce static power consumption, and potential improvements to these.
+%\textbf{Finally, your boss wants to send your design off to your colleague, so that they can create the circuit layout. Are you ready to give the "good to go"-signal, or are there changes or tests you would like to do first?}
 
-Was there anything unexpected or weird about your results? What are possible explanations for these observations? It is good to draw on theory. This section and the theory section are the sections where it is natural to have the most references to literature (papers, the book, other).
+\subsection{Volatile bitcell outputs}
+Since our bitcells all write to a shared databus, what they do when not selected for reading is quite important. In the functionality test in \autoref{fig:04:func}, it can be observed that when RE is low the bitcell is still outputting values. Tests that were not included in the results have been performed, where a pull-down resistor was attached to the output to see how strong the bitcell output was. With a fairly weak pull-down of $\SI{100}{k\Omega}$, the output was forced low when RE was low. These tests are not included due to high levels of abstraction without concrete parameters to estimate, but performing more tests on how an array of bitcell outputs performs in conjunction could have been relevant. The gut feeling attained from testing the pull-down resistors is however deemed good enough for us designers to be confident that the design is functioning well enough for its specifications.
 
-The discussion section should aim to cover the following:
+The reason these effects are observed is also of interest. We believe it is due to the transistors's capacitance. When the output is not actively driven, the tri-state buffer's capacitance could leak some current, creating a voltage difference on the output. In the figures, a typical filtered signal curve is observed at time 60ns, indicating that capacitive or inductive effects are involved.
 
-\quad If the circuit did not work properly, \textit{why} might that be? 
+\subsection{Databus or multiplexer}
+In our implementation we chose to have the output be a shared databus, as opposed to having a multiplexer (mux) select which bitcell to read from. When designing we assumed this would take less transistors, lead to a smaller footprint, and thus a lower power consumption. Since this memory is to be implemented in an IoT device, lowering footprint and power consumption should be some primary goals.
 
-\quad If some of your results turn out differently than you expected: \textit{Why}? You do not have to come to a definite answer, but should try to discuss at least one possible explanation.
+However, we never actually tested how a mux performed when compared to a databus. Considering what was discussed in the previous subsection about the bitcell's outputs, this point of discussion is even more relevant. A databus might have more capacitive effects, leading to the read-time of the module being significantly longer than the read-time of a single bitcell. Thus, a mux might have been more stable, or faster. Implementing both systems and testing them would have let us have a stronger argument on what design was chosen.
 
-\quad Are there any parts of your implementation you would do differently, given another chance?
+\subsection{Further testing}
+The testbenches that were performed were not all-encompassing. For instance, the FSM testbench checked that the FSM could reach all of its states, and give correct outputs in each of those states, but it did not check that all of the state transitions worked. Every state should have been reached, and then received every possible input.
 
-\quad It could be interesting to discuss the choices you made to reduce static power consumption, and potential improvements to these.
+The completed memory module was also not sufficiently tested, as no reading before writing was performed.  
 
+\subsection{Supply voltage}
+For our system we chose to optimize the transistor dimensions for low leakage current, since this is an IoT application, and is thus most likely dependent on a battery. We then had to set our voltage higher in order to have a fast enough write time. What we failed to consider was that if the memory is to be used frequently, the dynamic power usage will suffer from our choice of a higher supply voltage. The dynamic power is related to the voltage squared, as can be seen in \autoref{eq:02:dynamic_power}, so minimizing leakage current is not necessarily equivalent to minimizing power consumption. We could have explored that further. It is also not obvious that we even have minimized leakage current, as the drain current, \autoref{eq:02:drain_current}, is also proportional to the voltage squared.
 
-\textbf{Finally, your boss wants to send your design off to your colleague, so that they can create the circuit layout. Are you ready to give the "good to go"-signal, or are there changes or tests you would like to do first?}
+\subsection{Scaleability}
+One aspect that was not explored, but which is worth mentioning, is the scalability of the system. Should a larger memory unit be desired, scaling the RAM module to include more bytecells only requires a larger demux and address bus; all other systems would be identical to how they are designed in this document.

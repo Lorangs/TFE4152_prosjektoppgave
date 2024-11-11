@@ -1,27 +1,58 @@
-\section{Theory}
+\section{Theory}    \label{sec:02:theory}
 
-The theory section should contain background theory relevant for the reader in order to understand the rest of your report.\textbf{ Assume that the reader is yourselves at the start of the semester (before you had learnt anything from this course) and include theory accordingly.} Keep in mind that this section should only include theory relevant to the project and the report, it is not meant as a place to show off everything you have ever learnt.
+\subsection{Memory Unit}
+Every digital memory unit is built up hierarchically by several word cells. The size of each word may vary from system to system (8-bit, 16-bit, 32-bit, etc.), but no matter the architecture, the smallest unit of memory, the bitcell, is present. The total available bits in the memory is the product of the number of bits per word times number of words in the unit. Every bit is addressable by a unique address that points to a single word in the unit. When reading or writing a word, the whole word is accessed, and should individual bits be of interest, then those must be parsed from the word.
+
+The bitcells within each word are designed differently depending on the level of transparency required. There are several options for storing a single digital value, such as latches and flip-flops. Latches are transparent in the sense that once enabled, the output will follow the input immediately (with some negligible delay). Flip-flops on the other hand are not transparent: The output must always be overwritten by a rising or falling clock edge, thus delaying the output compared to the input.
+
+\subsection{Power Reduction}
+Total power consumption of a system is usually calculated as the sum of the static power consumption and the dynamic power consumption. The static power consumption is always present, even when the system is idle, meaning no inputs or outputs are changing. The dynamic power consumption is the extra power required to change the states of the system.
+
+\begin{equation}
+    P_{total} = P_{static} + P_{dynamic}
+    \label{eq:02:total_power}
+\end{equation}
+
+Static power consumption is calculated by the average number of transistors that are in the active region, and how much each transistor leaks. The dynamic power consumption depends on many factors, but it can be reduced by lowering any of the system factors it is proportional to, see \autoref{eq:02:dynamic_power} \cite{forelesningslidesPower}.
+
+\begin{equation}
+    P_{dynamic} \propto f_{clk} \cdot C_{load} \cdot V_{DD}^2
+    \label{eq:02:dynamic_power}
+\end{equation}
+
+In reason years, with clock frequencies going down, it is the static power consumption that contribute to the most of the over all power consumption, despite Moore's law. In order to reduce power consumption in a 'System on a Chip' (SoC) there are many factors to consider, but some very common ones are to: 
+\begin{itemize}
+    \item Reduce the number of transistors in the system as a whole.
+    \item Reduce the current through each transistor when in the active region, which can be estimated with equation \ref{eq:02:drain_current} \cite{analog2011}. 
+    \item Reduce supply voltage
+    \item Reduce the switching frequency / clock frequency.
+\end{itemize}
 
 
+To reduce the drain current, some adjustments to the transistor specifications based on \autoref{eq:02:drain_current} can be made:
+\begin{itemize}
+    \item Reduce the width-to-length ratio.
+    \item Minimize the difference between voltage supply and threshold voltage of the transistors.
+\end{itemize}
 
-\subsection{Subsections, equations, figures, and tables}\label{subsec:theory_aSubsection}
-When you in later sections apply any of the theory you can refer back to this section. To make it easier for the reader to understand which part you are referring back to, it can be a good idea to divide your sections into subsections (e.g. one subsection per topic). This also makes it easier to read.
+To achieve the latter, one may choose to wither lower the voltage supply directly or increase the threshold voltage by tuning the bulk of each transistor. 
 
-Use equations, figures and tables to help get your message across. All figures/tables/equations should be referenced in the text, as they are there to help you tell your story. Remember to cite your references \cite{example}. Every table and figure should be referenced in the text, see \autoref{tab:my_label}. You should also make sure to tell the reader what we are supposed to see in the figure, e.g. \textit{We see from the plot that the signal x goes low 1ns after y goes high, which means that spec 3 has been met.}
 
-\begin{table}[h]
-    \centering
-    \caption{The caption should give a short description of what the reader can see from this table/plot/figure.}
-    \begin{tabular}{c|c}
-         & Referenced in text? \\
-         \hline
-        Figure & YES\\
-        Table & YES\\
-    \end{tabular}
-    \label{tab:my_label}
-\end{table}
+\begin{equation}
+    I_D = \frac{\mu C_{ox}}{2} \frac{W}{L} (V_{GS} - V_T)^2 
+    \label{eq:02:drain_current}
+\end{equation}
 
-\subsection{Naming conventions}
-When writing a report like this, it is important to follow naming conventions. Otherwise you risk confusing the readers, sometimes so much that they can no longer see the cool/smart/interesting thing you did. And since the readers in your case are people who will be giving you a grade, that is extra unfortunate. 
 
-An example of a naming convention is using the same names for signals as those that were given in the project description. If you for some reason are unable to follow a given naming convention, you should make sure to highlight that to the reader so that they understand what is happening.
+\subsection{Process variation corners}
+When producing SoC's, the transistors on the wavefer are prone to be slightly different from each other depending on a number of factors. Transistors made close together on the wavefer will be more similar to each other than transistors placed further apart. These process variations makes some transistors switch on and off faster than others. We divide the transistors into 5 different corners according to how fast they are switching.
+
+\begin{itemize}
+    \item \makebox[1cm]{FF \hfill} \makebox[2.5cm]{\textit{Fast-Fast} \hfill} Fast operating NMOS and Fast operating PMOS 
+    \item \makebox[1cm]{SS \hfill} \makebox[2.5cm]{\textit{Slow-Slow} \hfill} Slow operating NMOS and Slow operating PMOS 
+    \item \makebox[1cm]{FS \hfill} \makebox[2.5cm]{\textit{Fast-Slow} \hfill} Fast operating NMOS and Slow operating PMOS 
+    \item \makebox[1cm]{SF \hfill} \makebox[2cm]{\textit{Slow-Fast} \hfill} Slow operating NMOS and Fast operating PMOS 
+    \item \makebox[1cm]{TT \hfill} \makebox[2.5cm]{\textit{Typical-Typical} \hfill} Typical operating NMOS and Typical operating PMOS 
+\end{itemize}
+
+The advantages of fast operating transistors include faster switching times and lower threshold voltages, meaning that they can operate on a lower voltage supply. However they have higher power consumption due to the higher leakage current and switching frequency. The leakage current is a result of the shorter channel lengths meaning less capacitance between the channels. The lowered threshold voltage $V_T$ will also provide higher leakage current. When $V_T$ is lower, it means that even a small voltage at the gate can cause the transistor to start conducting, which also makes it more susceptible to unwanted or subthreshold leakage. Subthreshold leakage occurs when the gate voltage is below $V_T$, but still close enough to allow a small current to flow through the channel. In contrast to fast transistors, slow transistors have a higher $V_T$ and thus lower power consumption, which makes them ideal for low energy implementations.

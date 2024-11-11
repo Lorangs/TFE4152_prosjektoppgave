@@ -1,16 +1,14 @@
 \begin{abstract}
-    The abstract \textit{(Norwegian: sammendrag)} should sum up the key points of your report. It is good to include key details here (e.g. concrete numbers describing the design and/or results). In real life, many people stop reading after the abstract. This is your chance to present what your paper/report is all about, and to attract interest from the right readers.
-
-    The abstract should answer the following questions:
-
-    \quad What is this report all about?
-
-    \quad What have you designed?
-
-    \quad Why should I read this thesis?
+%The abstract \textit{(Norwegian: sammendrag)} should sum up the key points of your report. It is good to include key details here (e.g. concrete numbers describing the design and/or results). In real life, many people stop reading after the abstract. This is your chance to present what your paper/report is all about, and to attract interest from the right readers.
+%The abstract should answer the following questions:
+%\quad What is this report all about?
+%\quad What have you designed?
+%\quad Why should I read this thesis?
+%\quad What were the key results?
+%Length: For a report this length, around half a page would probably be good. Maximum one page.
+    This report contains the design of an 8x8-bit memory module for low-power applications with a leakage current of 2 to \SI{6}{nA} at a supply voltage of \SI{0.99}{V}.
     
-    \quad What were the key results?
+    The memory module consists of a Finite State Machine that acts as a control unit to the SRAM independent of the system clock. It has a read/write time of less than \SI{3}{ns}, but requires two clock cycles to write, as opposed to a single clock cycle to read.
 
-    Length: For a report this length, around half a page would probably be good. Maximum one page.
-    
+    The entire system is implemented at a logic gate level, with appendixes containing sufficient Verilog code to digitally simulate the system.
 \end{abstract}
