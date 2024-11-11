@@ -36,3 +36,4 @@ module bitcell
     pmos(outp, T0, ren);
     nmos(outp, T1, re);
 endmodule
+
