@@ -1,14 +1,15 @@
 \section{Method}    \label{sec:03:method}
 \subsection{System overview}
 
-\begin{figure}[hb]
+
+Our system consists of a Finite State Machine and a (Static) Random Access Memory, as can be seen in \autoref{fig:03:system_diagram}. The FSM serves as a control unit to make sure all operations on the RAM are performed in a stable manner. The FSM is connected to a clock signal, but the RAM is not.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/memory_block_schematic.png}
     \caption{Block diagram of the system}
     \label{fig:03:system_diagram}
 \end{figure}
-
-Our system consists of a Finite State Machine and a (Static) Random Access Memory, as can be seen in \autoref{fig:03:system_diagram}. The FSM serves as a control unit to make sure all operations on the RAM are performed in a stable manner. The FSM is connected to a clock signal, but the RAM is not.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                         RAM                                               %
@@ -74,37 +75,56 @@ The leakage current of each bitcell is a sum of the leakage current of all its t
 
 In the next section the slow-slow (SS) corner has the slowest operation time of all the simulation corners as seen in \autoref{fig:04:write}. The voltage supply was chosen to be $V_{DD} = \SI{0.99}{V}$ based on early simulations. This value provided us with the most stable and functional bitcell for all of the operational corners within the task's read/write requirements of \SI{3}{ns} as can be seen in \autoref{fig:03:write_times}.
 
-\begin{figure} [H]
-    \centering
-    \begin{subfigure}[c]
-        \includegraphics[width=0.45\linewidth]{}
-    \end{subfigure}
-    \begin{subfigure}
-        \includegraphics[width=0.45\linewidth]{}
-    \end{subfigure}
-    \caption{Write times for \textit{SS} corners at different supply voltage $V_d_d$. The input pulse is exactly \SI{3}{ns} long.}
-    \label{fig:03:write_times}
+\begin{figure}[H]%
+\centering
+\subfigure[$V{dd} = \SI{0.6}{V}$]{%
+\label{fig:first}%
+\includegraphics[height=1.5in]{LaTeX_2/Figures/write060V.png}}%
+\qquad
+\subfigure[$V{dd} = \SI{0.8}{V}$]{%
+\label{fig:second}%
+\includegraphics[height=1.5in]{LaTeX_2/Figures/write080V.png}}%
+\qquad
+\subfigure[$V{dd} = \SI{0.99}{V}$]{%
+\label{fig:third}%
+\includegraphics[height=1.5in]{aimSpice/plots/plotsSS/write.png}}%
+\caption{Write times for the \textit{SS} corner at different supply voltages, $V_{dd}$. The input pulse is exactly \SI{3}{ns} long.}
+\label{fig:03:write_times}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                         BYTECELL                                          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{The bytecell}
-The bytecell consists of 8 bitcells and an F-block (function block) meant to translate the input signals of the bytecell to the required inputs of each of its bitcells. The bitcells all write their outputs to 8 different wires, which we refer to as the databus. The bytecell can be seen in \autoref{fig:03:bytecell_schematic}.
+The bytecell consists of 8 bitcells and an F-block (function block) meant to translate the input signals of the bytecell to the required inputs of each of its bitcells. The bitcells all write their outputs to 8 different wires, which we refer to as the databus. The bytecell schematic can be seen in \autoref{fig:03:bytecell_schematic}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{LaTeX_2/Figures/bytecell_schematic.png}
+    \includegraphics[trim=0cm 0cm 0cm 0.3cm, clip, width=0.8\linewidth]{LaTeX_2/Figures/bytecell_schematic.png}
     \caption{Wiring schematic for the bytecell module}
     \label{fig:03:bytecell_schematic}
 \end{figure}
 
-The inputs and outputs of the bytecell are almost identical to those of the RAM, with the exception of there being no address signal, and the input having to be written both normally and inverted. Having the inverse signal at this level means saving transistors, as there will be one inverter for all of the 8 databus wires one level higher, instead of one inverter for every bytecell.
+The inputs and outputs of the bytecell are almost identical to those of the RAM, with the exception of there being no address signal, and the input having to be written both normally and inverted. Having the inverse signal bus at this level means saving transistors, as there will be one inverter for all of the 8 databus wires one level higher, instead of one inverter for every bitcell. The downside to this solution is that we need more wires connecting each module, which in turn can create more noise and disruptions internally. If the inverted wires are printed as differential pairs, the noise issue will be minimized. 
 
-The F-block was designed to set WE high only when op and sel are high, and to set RE high only when op is low and sel is high, and otherwise to set both WE and RE to low.
+The control logic on the left was designed to set \textit{WE} high only when \textit{op} and \textit{sel} are high, and to set \textit{RE} high only when \textit{op} is low and \textit{sel} is high. Otherwise, both \textit{WE} and \textit{RE} are set to low. The truth table can be seen in \autoref{tab:03:F-block}.
+
+\begin{table}[H]
+    \centering
+    \caption{The truth table for the control logic in \autoref{fig:03:bytecell_schematic}.}
+    \begin{tabular}{|c|c||c|c|}
+        \hline
+        \textit{op}  & s\textit{sel} & \textit{WE} & \textit{RE} \\ \hline
+        0   & 0   &   0         & 0           \\
+        0   & 1   &   0         & 1           \\
+        1   & 0   &   0         & 0           \\
+        1   & 1   &   1         & 0           \\ \hline
+    \end{tabular}
+    \label{tab:03:F-block}
+\end{table}
 
 \subsubsection{Demux}
-The demultiplexer (demux) that can be seen on the left in \autoref{fig:03:RAM_schematic} chooses which of the bytecells that receives the select input. All the others bytecells are set to low, except for the one that is addressed. It is implemented as shown in \autoref{fig:03:demux_schematic}.
+The demultiplexer (demux) that can be seen on the left in \autoref{fig:03:RAM_schematic} sends \textit{inp} (\textit{sel} in \autoref{fig:03:RAM_schematic}) to a single addressed \textit{outp} (a bytecell), according to the address in \textit{adr}. All the other \textit{outp} are set to low, except for the one that is addressed. The demux schematic is as shown in \autoref{fig:03:demux_schematic}.
 
 \begin{figure}[H]
     \centering
@@ -117,7 +137,7 @@ The demultiplexer (demux) that can be seen on the left in \autoref{fig:03:RAM_sc
 %                                         FSM                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{FSM}
-The finite state machine is meant to work as an interface for stable and secure use of the RAM subsystem. Its design is based on what was demanded in the project description. The design can be seen in \autoref{fig:03:state_diagram}. 
+The finite state machine is meant to work as an interface for stable and secure use of the RAM subsystem. Its design is based on what was demanded in the project description \cite{oppgavebeskrivelse}. The required design can be seen in \autoref{fig:03:state_diagram}. 
 
 \begin{figure}[H]
     \centering
@@ -126,16 +146,16 @@ The finite state machine is meant to work as an interface for stable and secure 
     \label{fig:03:state_diagram}
 \end{figure}
 
-In order to design the aforementioned system state codes were made, \autoref{tab:03:state_code}, and then a truth table, \autoref{tab:03:FSM_truth_table}, was used to find the logical relations between inputs and outputs, where:
+In order to design the aforementioned system state codes were made as can be seen in \autoref{tab:03:state_code}. Then a truth table was created in order to find the logical relations between inputs and outputs in \autoref{tab:03:FSM_truth_table}, where:
 \begin{itemize}
     \item A - current state of register $R0$.
     \item B - current state of register $R1$.
-    \item C - input 'Operation'.
-    \item D - input 'Select'.
+    \item C - input \textit{op}.
+    \item D - input \textit{sel}.
     \item E - next state of register $R0$.
     \item F - next state of register $R1$.
-    \item G - output 'Valid'.
-    \item H - output '$\overline{R}/W$'.
+    \item G - output \textit{valid}.
+    \item H - output \textit{rw}.
 \end{itemize}
 
 
@@ -159,30 +179,30 @@ In order to design the aforementioned system state codes were made, \autoref{tab
     \centering
     \begin{tabular}{|cc|cc|cc|cc|}
         \hline
-        \multicolumn{2}{|l|}{State} & \multicolumn{2}{l|}{Input} & \multicolumn{2}{l|}{State nxt} & \multicolumn{2}{l|}{Output}        \\ \hline
-                     &              & Op          & Sel          &                &               & Valid & R/W \\
-        A            & B            & C           & D            & E              & F             & G     & H                          \\ \hline
-        0            & 0            & 0           & 0            & 0              & X             & 0     & X                          \\
-        0            & 0            & 0           & 1            & 1              & 0             & 0     & X                          \\
-        0            & 0            & 1           & 0            & 0              & X             & 0     & X                          \\
-        0            & 0            & 1           & 1            & 1              & 1             & 0     & X                          \\
-        0            & 1            & 0           & 0            & 0              & X             & 1     & 0                          \\
-        0            & 1            & 0           & 1            & 1              & 0             & 1     & 0                          \\
-        0            & 1            & 1           & 0            & 0              & X             & 1     & 0                          \\
-        0            & 1            & 1           & 1            & 1              & 1             & 1     & 0                          \\
-        1            & 0            & 0           & 0            & 0              & X             & 0     & 1                          \\
-        1            & 0            & 0           & 1            & 1              & 0             & 0     & 1                          \\
-        1            & 0            & 1           & 0            & 0              & X             & 0     & 1                          \\
-        1            & 0            & 1           & 1            & 1              & 1             & 0     & 1                          \\
-        1            & 1            & 0           & 0            & 0              & 1             & 1     & 1                          \\
-        1            & 1            & 0           & 1            & 0              & 1             & 1     & 1                          \\
-        1            & 1            & 1           & 0            & 0              & 1             & 1     & 1                          \\
-        1            & 1            & 1           & 1            & 0              & 1             & 1     & 1                          \\ \hline
+        \multicolumn{2}{|c|}{State} & \multicolumn{2}{c|}{Input} & \multicolumn{2}{c|}{State nxt} & \multicolumn{2}{c|}{Output}  \\ \hline
+                     &              & \textit{op} & \textit{sel} &                &               & \textit{valid} & \textit{rw} \\
+        A            & B            & C           & D            & E              & F             & G     & H                    \\ \hline
+        0            & 0            & 0           & 0            & 0              & X             & 0     & X                    \\
+        0            & 0            & 0           & 1            & 1              & 0             & 0     & X                    \\
+        0            & 0            & 1           & 0            & 0              & X             & 0     & X                    \\
+        0            & 0            & 1           & 1            & 1              & 1             & 0     & X                    \\
+        0            & 1            & 0           & 0            & 0              & X             & 1     & 0                    \\
+        0            & 1            & 0           & 1            & 1              & 0             & 1     & 0                    \\
+        0            & 1            & 1           & 0            & 0              & X             & 1     & 0                    \\
+        0            & 1            & 1           & 1            & 1              & 1             & 1     & 0                    \\
+        1            & 0            & 0           & 0            & 0              & X             & 0     & 1                    \\
+        1            & 0            & 0           & 1            & 1              & 0             & 0     & 1                    \\
+        1            & 0            & 1           & 0            & 0              & X             & 0     & 1                    \\
+        1            & 0            & 1           & 1            & 1              & 1             & 0     & 1                    \\
+        1            & 1            & 0           & 0            & 0              & 1             & 1     & 1                    \\
+        1            & 1            & 0           & 1            & 0              & 1             & 1     & 1                    \\
+        1            & 1            & 1           & 0            & 0              & 1             & 1     & 1                    \\
+        1            & 1            & 1           & 1            & 0              & 1             & 1     & 1                    \\ \hline
     \end{tabular}
     \label{tab:03:FSM_truth_table}
 \end{table}
 
-Using the logical relations between the inputs, outputs, current state and next state in \autoref{eq:03:boolean_equation}, we designed an implementation of the state machine in \autoref{fig:03:FSM_schematic}. 
+Using the logical relations between the inputs, outputs, current states and next states in \autoref{eq:03:boolean_equation}, we designed an circuit implementation of the state machine in \autoref{fig:03:FSM_schematic}.
 
 \begin{equation}
     \begin{split}

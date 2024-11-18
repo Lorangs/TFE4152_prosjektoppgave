@@ -16,6 +16,7 @@
 \usepackage{textcomp}   % Used in the package "gensymb" (below), which will give warnings if "textcomp" is not imported in advance
 \usepackage{gensymb}    % Adds extra generic symbols for math and text mode, e.g. \degree
 \usepackage{subfigure}
+\usepackage{subcaption}
 
 % --- Main matter ---
 % This is the main part of the paper.
@@ -65,22 +66,16 @@ Group 3
 
 \input{Text/0_Abstract} \newpage
 \tableofcontents \newpage
-\input{Text/1_Introduction} \newpage
-\input{Text/2_Theory} \newpage
+\input{Text/1_Introduction} 
+\input{Text/2_Theory} 
 \input{Text/3_Method} \newpage
-\input{Text/4_Results} \newpage
-\input{Text/5_Discussion} \newpage
+\input{Text/4_Results} 
+\input{Text/5_Discussion} 
 \input{Text/6_Conclusion} \newpage
 
 \addcontentsline{toc}{section}{References}
 \bibliographystyle{unsrt}
 \bibliography{bibliography}
 
-\newpage
-\vspace*{7 cm}
-\begin{center}
-\textbf{\Huge Appendices}
-\end{center}
-\addcontentsline{toc}{section}{Appendices}
 \include{Text/7_appendix.tex}
 \end{document}

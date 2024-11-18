@@ -1,9 +1,5 @@
 \section{Conclusion}    \label{sec:06:conclusion}
-In this report we have designed an 8x8-bit memory module for an IoT device. It has been implemented in Verilog with hierarchical modules. The memory unit operates as expected as shown by the testbenches in \autoref{sec:04:results}. 
-
-Additionally, the bitcell has been simulated in the simulation tool \textit{AIM-Spice}, and the simulation results are well within what the project demanded. We are especially fond of the small leakage current achieved, \SI{2}{nA}, for the SS variation corner, as shown in \autoref{fig:04:leakage}. These results confirm that our implimentation is viable solution for a low energy memory unit.
-
-Based on the results, we would recommend using this system for low-power applications, and certainly not for any cache close to a system CPU. It would be more suited for third level cache or as a main memory unit.
+In this report we have designed an 8x8-bit memory module for an IoT device. It has been implemented in Verilog with hierarchical modules from a logic gate level. The memory unit operates as expected as shown by the testbenches in \autoref{sec:04:results}. Additionally, the bitcell has been simulated in the simulation tool \textit{AIM-Spice}, and the simulation results are well within what the project specifications required. We are especially fond of the small leakage current achieved, \SI{2}{nA}, for the SS variation corner, as shown in \autoref{fig:04:leakage}. These results confirm that our implementation is a viable solution for a low energy memory unit. Based on the results, we would recommend using this system for low-power applications, and certainly not for any cache close to a system CPU. It is best suited for long-term storage that is not written or read frequently.
 
 %Make some concluding remarks. The length of this section should be somewhere between a paragraph and a page.
 %The conclusion should include your key findings. Make the conclusion as concrete as possible by using numbers for the result (e.g. what was the static power consumption at a given supply voltage).
