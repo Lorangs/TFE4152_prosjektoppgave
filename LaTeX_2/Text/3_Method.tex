@@ -8,24 +8,22 @@
     \label{fig:03:system_diagram}
 \end{figure}
 
-Our system consists of a Finite State Machine and a Random Access Memory, as can be seen in \autoref{fig:03:system_diagram}. The FSM serves as a control unit to make sure all operations on the RAM are performed in a stable manner. The FSM is connected to a clock signal, but the RAM is not.
+Our system consists of a Finite State Machine and a (Static) Random Access Memory, as can be seen in \autoref{fig:03:system_diagram}. The FSM serves as a control unit to make sure all operations on the RAM are performed in a stable manner. The FSM is connected to a clock signal, but the RAM is not.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                         RAM                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{RAM}
-The RAM subsystem consists of eight bitcells forming eight bytecells that stack on top of each other to form the full memory. It has these inputs and outputs:
+The RAM subsystem consists of eight bitcells forming eight bytecells that form the full memory. It has these inputs and outputs:
 \begin{itemize}
-    \item \makebox[2cm]{adr \hfill} - 3-bit address signal
-    \item \makebox[2cm]{inp \hfill} - 8-bit input data to be stored in address
-    \item \makebox[2cm]{outp \hfill} - 8-bit output data to be read from address
-    \item \makebox[2cm]{op \hfill} - either 0 for read or 1 for write
-    \item \makebox[2cm]{sel \hfill} - must be 1 for op to affect the circuit
+    \item \makebox[2cm]{\textit{adr} \hfill} - 3-bit address signal
+    \item \makebox[2cm]{\textit{inp} \hfill} - 8-bit input data to be stored in address
+    \item \makebox[2cm]{\textit{outp} \hfill} - 8-bit output data to be read from address
+    \item \makebox[2cm]{\textit{op} \hfill} - either 0 for read or 1 for write
+    \item \makebox[2cm]{\textit{sel} \hfill} - must be 1 for \textit{op} to affect the circuit
 \end{itemize}
 
-When the circuit is reading, meaning op is low, the output is what is stored in the currently addressed bytecell. When it is writing, the outp is Z (high resistance), meaning it can be easily overwritten, and should not be trusted. We chose our output to be Z as that seemed like the cleanest solution, since it is necessary for the circuit to be in read mode in order to be read from.
-
-The RAM's circuit is as can be observed in \autoref{fig:03:RAM_schematic}. It consists of eight bytecell modules. Every output bus is connected together, making it possible to only read from one of the bytecells at a time.
+When the circuit is reading, meaning \textit{op} is low, the output is what is stored in the currently addressed bytecell. When it is writing, the \textit{outp} is $Z$ (high impediance), meaning it can be easily overwritten, and should not be trusted if the circuit is not in read mode with \textit{sel} high. The RAM's circuit is implemented as can be observed in \autoref{fig:03:RAM_schematic}. It consists of eight bytecell modules. The entire output bus is connected to all the bytecells in parallel, making it possible to only read from one of the bytecells at a time.
 
 \begin{figure}[H]
     \centering
@@ -50,18 +48,18 @@ The bitcell concists of a D-latch and a tri-state-buffer. The logic schematic of
 
 The bitcell has inputs and outputs:
 \begin{itemize}
-    \item \makebox[2cm]{inp \hfill} - The input bit to be stored
-    \item \makebox[2cm]{inpn \hfill} - (input not) The inverse of the input bit
-    \item \makebox[2cm]{outp \hfill} - The output when the circuit is read
-    \item \makebox[2cm]{WE \hfill} - Write Enable, must be high to store a new value
-    \item \makebox[2cm]{RE \hfill} - Read Enable, must be high to set outp to the stored value
+    \item \makebox[2cm]{\textit{inp} \hfill} - The input bit to be stored
+    \item \makebox[2cm]{\textit{inpn} \hfill} - (input not) The inverse of the input bit
+    \item \makebox[2cm]{\textit{outp} \hfill} - The output when the circuit is read
+    \item \makebox[2cm]{\textit{WE \hfill}} - Write Enable, must be high to store a new value
+    \item \makebox[2cm]{\textit{RE \hfill}} - Read Enable, must be high to set outp to the stored value
+    \item \makebox[2cm]{\textit{REN} \hfill} - (Read Enable Not) inverted of \textit{RE}
 \end{itemize}
 
-The stored value sits in $\overline{Q_1}$, since the tri-state buffer acts as an inverter. We choose to implement the bitcell with a tri-state-buffer in order to make the output high impedance ($Z$) when \textsc{RE} is low. This is to ensure that the common bus in the RAM module can be overwritten by the selected bytecell module if \textsc{RE} is active.
-This simplifies the rest of the design, since there is no need for a multiplexer to choose which address to read data from.
+The inverse stored value sits in the node $\overline{Q_1}$. We choose to implement the bitcell with a tri-state-buffer in order to make the output high impedance ($Z$) when \textit{RE} is low. This is to ensure that the shared output bus in the RAM module can be overwritten by the selected bytecell module if \textit{RE} is high. This simplifies the rest of the design, since there is no need for a multiplexer to choose which address to read data from.
 
 \subsubsection{Bitcell leakage}
-The leakage current of each bitcell is a sum of the leakage current of all its transistors. In total there are 20 transistors in each bitcell, 10 NMOS and 10 PMOS. The leakage current of one NMOS can be estimated from equation \ref{eq:02:drain_current}. To reduce the leakage current, the right side of this equation can be reduced by reducing the width-to-length ratio. Hence, our choice of transistor sizes, as shown in table \ref{tab:03:transistor_size}, are chosen to reduce this ratio (within the allowed specifications of the assignment).
+The leakage current of each bitcell is a sum of the leakage current of all its transistors. In total there are 20 transistors in each bitcell, 10 NMOS and 10 PMOS. The leakage current of one NMOS can be estimated from equation \ref{eq:02:drain_current}. To reduce the leakage current, the right side of this equation can be reduced by tuning the width-to-length ratio. Hence, our choice of transistor sizes, as shown in table \ref{tab:03:transistor_size}, are chosen to reduce this ratio (within the allowed specifications of the assignment).
 
 \begin{table}[H]
     \centering
@@ -74,7 +72,19 @@ The leakage current of each bitcell is a sum of the leakage current of all its t
     \end{tabular}
 \end{table}
 
-In the next section, in \autoref{fig:04:write}, the slow-slow (SS) corner has the slowest operational times of them all. After some simulations, we chose our voltage supply to be $V_{DD} = \SI{0.99}{V}$. This value provided us with the most stable and functional bitcell for all four operational corners within the task's read/write requirements of 3ns. 
+In the next section the slow-slow (SS) corner has the slowest operation time of all the simulation corners as seen in \autoref{fig:04:write}. The voltage supply was chosen to be $V_{DD} = \SI{0.99}{V}$ based on early simulations. This value provided us with the most stable and functional bitcell for all of the operational corners within the task's read/write requirements of \SI{3}{ns} as can be seen in \autoref{fig:03:write_times}.
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[c]
+        \includegraphics[width=0.45\linewidth]{}
+    \end{subfigure}
+    \begin{subfigure}
+        \includegraphics[width=0.45\linewidth]{}
+    \end{subfigure}
+    \caption{Write times for \textit{SS} corners at different supply voltage $V_d_d$. The input pulse is exactly \SI{3}{ns} long.}
+    \label{fig:03:write_times}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                         BYTECELL                                          %
